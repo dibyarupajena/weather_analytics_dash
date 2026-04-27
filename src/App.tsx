@@ -276,7 +276,6 @@ const CityCard = ({ city, flights }) => {
 function App() {
   const [city1, setCity1] = useState(null);
   const [city2, setCity2] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
     const res = await fetch("/data.json"); // 👈 acts like API
@@ -330,19 +329,17 @@ function App() {
     });
   }, [city1, city2]);
 
-  // 📊 KPI Calculations
-  const totalFlights = (city1?.totalFlights || 0) + (city2?.totalFlights || 0);
-  const totalDelays = (city1?.delayedFlights || 0) + (city2?.delayedFlights || 0);
-  const delayRate = totalFlights ? ((totalDelays / totalFlights) * 100).toFixed(1) : '0.0';
-
-  // 🔥 Worst City Logic
-  const worstCity = city1 && city2 ? (getSeverity(city1) > getSeverity(city2) ? city1.name : city2.name) : '';
-
   if (!city1 || !city2) {
     return <div className="p-6">Loading...</div>;
-
-    
   }
+
+  // 📊 KPI Calculations (moved after loading check)
+  const totalFlights = city1.totalFlights + city2.totalFlights;
+  const totalDelays = city1.delayedFlights + city2.delayedFlights;
+  const delayRate = ((totalDelays / totalFlights) * 100).toFixed(1);
+
+  // 🔥 Worst City Logic
+  const worstCity = getSeverity(city1) > getSeverity(city2) ? city1.name : city2.name;
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">

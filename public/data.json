@@ -9,7 +9,10 @@
       { "date": "Wed", "temp": 27 },
       { "date": "Thu", "temp": 29 },
       { "date": "Fri", "temp": 31 }
-    ]
+    ],
+    "totalFlights": 120,
+    "delayedFlights": 35,
+    "avgDelay": 28
   },
   "Delhi": {
     "temperature": 99,
@@ -21,6 +24,9 @@
       { "date": "Wed", "temp": 27 },
       { "date": "Thu", "temp": 29 },
       { "date": "Fri", "temp": 31 }
-    ]
+    ],
+    "totalFlights": 150,
+    "delayedFlights": 30,
+    "avgDelay": 30
   }
 }
