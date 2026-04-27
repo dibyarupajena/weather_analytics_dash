@@ -1,0 +1,26 @@
+{
+  "Bangalore": {
+    "temperature": 29,
+    "humidity": 65,
+    "airQuality": 7.5,
+    "daily": [
+      { "date": "Mon", "temp": 28 },
+      { "date": "Tue", "temp": 30 },
+      { "date": "Wed", "temp": 27 },
+      { "date": "Thu", "temp": 29 },
+      { "date": "Fri", "temp": 31 }
+    ]
+  },
+  "Delhi": {
+    "temperature": 99,
+    "humidity": 55,
+    "airQuality": 6.2,
+    "daily": [
+      { "date": "Mon", "temp": 28 },
+      { "date": "Tue", "temp": 30 },
+      { "date": "Wed", "temp": 27 },
+      { "date": "Thu", "temp": 29 },
+      { "date": "Fri", "temp": 31 }
+    ]
+  }
+}
