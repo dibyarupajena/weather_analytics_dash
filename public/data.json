@@ -3,6 +3,7 @@
     "temperature": 29,
     "humidity": 65,
     "airQuality": 7.5,
+    "coordinates": [12.9716, 77.5946],
     "daily": [
       { "date": "Mon", "temp": 28 },
       { "date": "Tue", "temp": 30 },
@@ -18,6 +19,7 @@
     "temperature": 99,
     "humidity": 55,
     "airQuality": 6.2,
+    "coordinates": [28.7041, 77.1025],
     "daily": [
       { "date": "Mon", "temp": 28 },
       { "date": "Tue", "temp": 30 },
@@ -28,6 +30,19 @@
     "totalFlights": 150,
     "delayedFlights": 30,
     "avgDelay": 30
+  },
+  "mapConfig": {
+    "center": [20.5937, 78.9629],
+    "zoom": 5,
+    "flightRoutes": [
+      {
+        "from": "Bangalore",
+        "to": "Delhi",
+        "color": "#3b82f6",
+        "weight": 3,
+        "opacity": 0.8
+      }
+    ]
   },
   "impactData": [
     { "day": "Mon", "delay": 20, "severity": 6 },
