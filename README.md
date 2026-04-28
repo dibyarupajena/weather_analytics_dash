@@ -11,6 +11,29 @@ Demo for tutorial [Build Dashboards for Data Visualization in React with Tremor 
 
 🚀 Demo: https://my-barbenheimer-dashboard.vercel.app/
 
+## Live weather + flight delay dashboard
+
+This project now supports live data for:
+- Weather and forecast: Open-Meteo APIs
+- Flight delay metrics: Aviationstack Flights API
+
+### Setup
+
+1. Copy `.env.example` to `.env`
+2. Add your Aviationstack key:
+
+```bash
+VITE_AVIATIONSTACK_API_KEY=your_aviationstack_key_here
+```
+
+3. Start the app:
+
+```bash
+npm run dev
+```
+
+If `VITE_AVIATIONSTACK_API_KEY` is missing, the dashboard still shows live weather but flight delay metrics remain at `0`.
+
 ## More tutorials and walkthroughs
 
 🐦 [Follow me on Twitter](https://twitter.com/colbyfayock)

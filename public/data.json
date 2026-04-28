@@ -28,5 +28,12 @@
     "totalFlights": 150,
     "delayedFlights": 30,
     "avgDelay": 30
-  }
+  },
+  "impactData": [
+    { "day": "Mon", "delay": 20, "severity": 6 },
+    { "day": "Tue", "delay": 35, "severity": 8 },
+    { "day": "Wed", "delay": 25, "severity": 5 },
+    { "day": "Thu", "delay": 40, "severity": 9 },
+    { "day": "Fri", "delay": 30, "severity": 7 }
+  ]
 }

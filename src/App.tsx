@@ -227,8 +227,8 @@ const getSeverity = (city) => {
 // 🧩 Reusable City Component
 const CityCard = ({ city, flights }) => {
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-6">{city.name}</h2>
+    <div className="w-full">
+      <h2 className="text-2xl font-bold mb-6 text-black">{city.name}</h2>
 
       <Card className="max-w-lg mb-6">
         <Title>Air Quality</Title>
@@ -276,6 +276,7 @@ const CityCard = ({ city, flights }) => {
 function App() {
   const [city1, setCity1] = useState(null);
   const [city2, setCity2] = useState(null);
+  const [impactData, setImpactData] = useState([]);
 
   const fetchData = async () => {
     const res = await fetch("/data.json"); // 👈 acts like API
@@ -303,7 +304,7 @@ function App() {
       avgDelay: json.Delhi.avgDelay
     });
 
-
+    setImpactData(json.impactData || []);
   };
 
   useEffect(() => {
@@ -341,11 +342,18 @@ function App() {
   // 🔥 Worst City Logic
   const worstCity = getSeverity(city1) > getSeverity(city2) ? city1.name : city2.name;
 
-  return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+  // 🧠 Insight Logic
+  const insight =
+    worstCity === "Delhi"
+      ? "Delhi shows higher delays due to poor air quality and higher temperature."
+      : "Bangalore is currently more impacted due to weather instability.";
 
-      {/* 📊 KPI Section */}
-      <div className="grid grid-cols-4 gap-6 mb-8">
+  return (
+    <div className="bg-gray-100 min-h-screen py-6 flex justify-center">
+      <div className="w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+
+        {/* 📊 KPI Section */}
+        <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 mb-8 justify-items-center">
         <Card>
           <Text>Total Flights</Text>
           <Metric>{totalFlights}</Metric>
@@ -367,7 +375,7 @@ function App() {
         </Card>
       </div>
 
-      <div className="grid grid-cols-2 gap-12">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-12 justify-items-center">
 
         <CityCard city={city1} flights={city1} />
         <CityCard city={city2} flights={city2} />
@@ -375,7 +383,7 @@ function App() {
       </div>
 
       {/* 📈 Temperature Chart */}
-      <Card className="mt-8">
+      <Card className="mt-8 max-w-4xl mx-auto">
         <Title>Weekly Temperature Comparison</Title>
         <LineChart
           className="mt-6"
@@ -386,7 +394,26 @@ function App() {
           yAxisWidth={50}
         />
       </Card>
+
+      {/* 📊 Impact Chart */}
+      <Card className="mt-8 max-w-4xl mx-auto">
+        <Title>Weather vs Flight Delay</Title>
+        <LineChart
+          className="mt-6"
+          data={impactData}
+          index="day"
+          categories={["delay", "severity"]}
+          colors={["red", "blue"]}
+        />
+      </Card>
+
+      {/* 🧠 Insights */}
+      <Card className="mt-8 bg-blue-50 max-w-4xl mx-auto">
+        <Title>Insights</Title>
+        <Text className="mt-4">{insight}</Text>
+      </Card>
     </div>
+  </div>
   );
 }
 
