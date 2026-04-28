@@ -97,49 +97,51 @@ const MapComponent = ({ cities, mapConfig }: MapComponentProps) => {
       const severity = getSeverity(city);
       const color = getMarkerColor(severity);
 
-      // Create custom marker icon based on severity
+      // Create custom marker icon using the place name in a muted, semi-transparent bubble
+      const bubbleColor = severity < 50 ? 'rgba(34, 197, 94, 0.75)' : severity < 80 ? 'rgba(251, 146, 60, 0.75)' : 'rgba(239, 68, 68, 0.75)';
       const customIcon = L.divIcon({
         className: 'custom-marker',
         html: `<div style="
-          background-color: ${color};
-          width: 20px;
-          height: 20px;
-          border-radius: 50%;
-          border: 3px solid white;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          background-color: ${bubbleColor};
+          padding: 6px 12px;
+          border-radius: 999px;
           color: white;
-          font-weight: bold;
+          font-weight: 700;
           font-size: 12px;
-        ">${Math.round(severity)}</div>`,
-        iconSize: [26, 26],
-        iconAnchor: [13, 13]
+          white-space: nowrap;
+          box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+          border: none;
+        ">${city.name}</div>`,
+        iconSize: [130, 32],
+        iconAnchor: [65, 16]
       });
 
       const marker = L.marker(city.coordinates, { icon: customIcon }).addTo(map);
 
-      // Enhanced popup with severity information
+      // Tooltip shows more details on hover instead of click
       const severityText = severity < 50 ? 'Good' : severity < 80 ? 'Moderate' : 'Severe';
-      marker.bindPopup(`
-        <div style="text-align: center; min-width: 200px;">
-          <h3 style="margin: 0 0 10px 0; color: ${color};">🏙️ ${city.name}</h3>
-          <div style="background: ${color}20; padding: 8px; border-radius: 4px; margin-bottom: 8px;">
-            <strong>Weather Severity: ${severity.toFixed(1)} (${severityText})</strong>
+      const tooltipHtml = `
+        <div style="text-align:left; min-width: 220px; padding: 8px;">
+          <div style="font-weight: 700; margin-bottom: 6px; color: ${color};">${city.name}</div>
+          <div style="font-size: 12px; line-height: 1.4; color: #111;">
+            <div>🌡️ Temp: ${city.temperature}°C</div>
+            <div>💧 Humidity: ${city.humidity}%</div>
+            <div>🌬️ Air Quality: ${city.airQuality}/10</div>
+            <div>✈️ Delayed Flights: ${city.delayedFlights}</div>
+            <div>⏰ Avg Delay: ${city.avgDelay} min</div>
+            <div style="margin-top: 4px; font-weight: 600;">Severity: ${severity.toFixed(1)} (${severityText})</div>
           </div>
-          <p style="margin: 4px 0;">🌡️ Temperature: ${city.temperature}°C</p>
-          <p style="margin: 4px 0;">💧 Humidity: ${city.humidity}%</p>
-          <p style="margin: 4px 0;">🌬️ Air Quality: ${city.airQuality}/10</p>
-          <p style="margin: 4px 0;">✈️ Delayed Flights: ${city.delayedFlights}</p>
-          <p style="margin: 4px 0;">⏰ Avg Delay: ${city.avgDelay} min</p>
         </div>
-      `);
+      `;
 
-      // Open Bangalore popup by default
-      if (city.name === 'Bangalore') {
-        marker.openPopup();
-      }
+      marker.bindTooltip(tooltipHtml, {
+        direction: 'top',
+        offset: [0, -20],
+        permanent: false,
+        sticky: true,
+        opacity: 0.95,
+        className: 'city-tooltip'
+      });
     });
 
     // ✈️ Step 5: Add flight routes between cities
