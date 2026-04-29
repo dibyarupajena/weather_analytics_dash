@@ -83,13 +83,19 @@ function App() {
   const [mapConfig, setMapConfig] = useState<MapConfig | null>(null);
   const [selectedFrom, setSelectedFrom] = useState<string>("Bangalore");
   const [selectedTo, setSelectedTo] = useState<string>("Delhi");
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
+    // Check localStorage for saved theme preference
+    const savedTheme = localStorage.getItem('theme');
+    return savedTheme === 'dark';
+  });
 
   useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
     } else {
       document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
     }
   }, [isDarkMode]);
 
@@ -336,7 +342,7 @@ function App() {
       : `${selectedToCity.name} is currently more impacted due to weather instability.`;
 
   return (
-    <div className="bg-gray-100 dark:bg-gray-900 min-h-screen py-6 flex justify-center">
+    <div className="bg-gray-50 dark:bg-black min-h-screen py-6 flex justify-center transition-colors duration-500">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Theme Toggle Button */}
         <div className="flex justify-end mb-4">
