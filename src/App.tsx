@@ -32,13 +32,13 @@ const getSeverity = (city: any) => {
 // 🧩 Reusable City Component
 const CityCard = ({ city, flights }: { city: any, flights: any }) => {
   return (
-    <div className="w-full">
-      <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-cyan-400 dark:drop-shadow-[0_0_10px_rgba(34,211,238,0.8)]">{city.name}</h2>
+    <div className="space-y-4">
+      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">{city.name}</h2>
 
-      <Card className="max-w-lg bg-white dark:bg-gray-900 border-gray-200 dark:border-cyan-500 dark:shadow-[0_0_15px_rgba(34,211,238,0.3)]">
-        <Title className="text-gray-900 dark:text-cyan-300 dark:drop-shadow-[0_0_8px_rgba(34,211,238,0.6)]">Air Quality</Title>
+      <Card className="bg-white/10 dark:bg-[#1F2937]/70 backdrop-blur-xl border border-white/20 dark:border-white/20 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.18)] p-6">
+        <Title className="text-slate-900 dark:text-white text-lg font-semibold mb-4">Air Quality</Title>
         <DonutChart
-          className="mt-6 mb-6"
+          className="mt-4"
           data={[
             { name: "Good", value: city.airQuality },
             { name: "Bad", value: 10 - city.airQuality }
@@ -50,29 +50,31 @@ const CityCard = ({ city, flights }: { city: any, flights: any }) => {
         />
       </Card>
 
-      <Card className="max-w-xs mx-auto mb-6 bg-white dark:bg-gray-900 border-gray-200 dark:border-green-500 dark:shadow-[0_0_15px_rgba(34,197,94,0.3)]">
-        <Text className="text-gray-900 dark:text-green-300 dark:drop-shadow-[0_0_8px_rgba(34,197,94,0.6)]">Temperature</Text>
-        <Metric className="text-gray-900 dark:text-green-400 dark:drop-shadow-[0_0_10px_rgba(34,197,94,0.8)]">{city.temperature}°C</Metric>
-      </Card>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <Card className="bg-white/15 dark:bg-[#1F2937]/70 backdrop-blur-xl border border-white/20 dark:border-white/20 rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.18)] p-4">
+          <Text className="text-slate-500 dark:text-slate-300 text-sm font-medium mb-1">Temperature</Text>
+          <Metric className="text-slate-900 dark:text-green-400 text-2xl font-bold">{city.temperature}°C</Metric>
+        </Card>
 
-      <Card className="max-w-xs mx-auto mb-6 bg-white dark:bg-gray-900 border-gray-200 dark:border-blue-500 dark:shadow-[0_0_15px_rgba(59,130,246,0.3)]">
-        <Text className="text-gray-900 dark:text-blue-300 dark:drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]">Humidity</Text>
-        <Metric className="text-gray-900 dark:text-blue-400 dark:drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]">{city.humidity}%</Metric>
-      </Card>
+        <Card className="bg-white/15 dark:bg-[#1F2937]/70 backdrop-blur-xl border border-white/20 dark:border-white/20 rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.18)] p-4">
+          <Text className="text-slate-500 dark:text-slate-300 text-sm font-medium mb-1">Humidity</Text>
+          <Metric className="text-slate-900 dark:text-blue-400 text-2xl font-bold">{city.humidity}%</Metric>
+        </Card>
 
-      <Card className="max-w-xs mx-auto mb-6 bg-white dark:bg-gray-900 border-gray-200 dark:border-red-500 dark:shadow-[0_0_15px_rgba(239,68,68,0.3)]">
-        <Text className="text-gray-900 dark:text-red-300 dark:drop-shadow-[0_0_8px_rgba(239,68,68,0.6)]">Flights Delayed</Text>
-        <Metric className="text-gray-900 dark:text-red-400 dark:drop-shadow-[0_0_10px_rgba(239,68,68,0.8)]">{flights.delayedFlights}</Metric>
-      </Card>
+        <Card className="bg-white/15 dark:bg-[#1F2937]/70 backdrop-blur-xl border border-white/20 dark:border-white/20 rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.18)] p-4">
+          <Text className="text-slate-500 dark:text-slate-300 text-sm font-medium mb-1">Flights Delayed</Text>
+          <Metric className="text-slate-900 dark:text-red-400 text-2xl font-bold">{flights.delayedFlights}</Metric>
+        </Card>
 
-      <Card className="max-w-xs mx-auto mb-6 bg-white dark:bg-gray-900 border-gray-200 dark:border-yellow-500 dark:shadow-[0_0_15px_rgba(234,179,8,0.3)]">
-        <Text className="text-gray-900 dark:text-yellow-300 dark:drop-shadow-[0_0_8px_rgba(234,179,8,0.6)]">Avg Delay</Text>
-        <Metric className="text-gray-900 dark:text-yellow-400 dark:drop-shadow-[0_0_10px_rgba(234,179,8,0.8)]">{flights.avgDelay} min</Metric>
-      </Card>
+        <Card className="bg-white/15 dark:bg-[#1F2937]/70 backdrop-blur-xl border border-white/20 dark:border-white/20 rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.18)] p-4">
+          <Text className="text-slate-500 dark:text-slate-300 text-sm font-medium mb-1">Avg Delay</Text>
+          <Metric className="text-slate-900 dark:text-yellow-400 text-2xl font-bold">{flights.avgDelay} min</Metric>
+        </Card>
+      </div>
 
-      <Card className="max-w-xs mx-auto mb-6 bg-white dark:bg-gray-900 border-gray-200 dark:border-purple-500 dark:shadow-[0_0_15px_rgba(147,51,234,0.3)]">
-        <Text className="text-gray-900 dark:text-purple-300 dark:drop-shadow-[0_0_8px_rgba(147,51,234,0.6)]">Weather Severity</Text>
-        <Metric className="text-gray-900 dark:text-purple-400 dark:drop-shadow-[0_0_10px_rgba(147,51,234,0.8)]">{getSeverity(city)}</Metric>
+      <Card className="bg-white dark:bg-[#1F2937]/80 backdrop-blur-md border-gray-200 dark:border-white/10 rounded-xl shadow-lg dark:shadow-xl p-4">
+        <Text className="text-gray-600 dark:text-white/70 text-sm font-medium mb-1">Weather Severity</Text>
+        <Metric className="text-gray-900 dark:text-cyan-400 text-2xl font-bold">{getSeverity(city)}</Metric>
       </Card>
     </div>
   );
@@ -342,29 +344,29 @@ function App() {
       : `${selectedToCity.name} is currently more impacted due to weather instability.`;
 
   return (
-    <div className="bg-gray-50 dark:bg-black min-h-screen py-6 flex justify-center transition-colors duration-500">
+    <div className="bg-gray-50 dark:bg-[#0B1020] min-h-screen py-6 flex justify-center transition-all duration-500 font-sans">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Theme Toggle Button */}
-        <div className="flex justify-end mb-4">
+        <div className="flex justify-end mb-6">
           <button
             onClick={toggleTheme}
-            className="px-4 py-2 rounded bg-gray-200 dark:bg-gray-800 text-gray-900 dark:text-cyan-400 dark:border dark:border-cyan-500 dark:shadow-[0_0_10px_rgba(34,211,238,0.5)] hover:bg-gray-300 dark:hover:bg-gray-700 dark:hover:shadow-[0_0_15px_rgba(34,211,238,0.8)] transition-all duration-300"
+            className="px-6 py-3 rounded-xl bg-white/90 dark:bg-slate-800 text-slate-900 dark:text-slate-100 border border-slate-200/70 dark:border-gray-700 shadow-sm dark:shadow-[0_10px_30px_rgba(0,0,0,0.24)] hover:bg-slate-100 dark:hover:bg-slate-700 dark:shadow-[0_0_18px_rgba(56,189,248,0.24)] dark:hover:shadow-[0_0_28px_rgba(56,189,248,0.38)] transition-all duration-300 font-medium"
           >
             {isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}
           </button>
         </div>
 
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <div>
-          <Text className="text-gray-900 dark:text-cyan-300 dark:drop-shadow-[0_0_8px_rgba(34,211,238,0.6)]">Flight From</Text>
+          <label className="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">Flight From</label>
           <select
             value={selectedFrom}
             onChange={(e) => setSelectedFrom(e.target.value)}
-            className="mt-2 block w-full rounded border border-gray-300 dark:border-cyan-500 bg-white dark:bg-gray-900 p-2 text-gray-900 dark:text-cyan-400 dark:shadow-[0_0_10px_rgba(34,211,238,0.3)] focus:ring-2 focus:ring-cyan-500 dark:focus:ring-cyan-400 transition-all duration-300"
+            className="w-full px-4 py-3 rounded-xl bg-white dark:bg-[#1F2937]/90 border border-gray-300 dark:border-gray-700 text-slate-900 dark:text-white shadow-sm dark:shadow-[0_10px_30px_rgba(0,0,0,0.18)] focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500 focus:border-transparent transition-all duration-300"
           >
             {cities.map((city) => (
-              <option key={city.name} value={city.name} className="bg-white dark:bg-gray-900 text-gray-900 dark:text-cyan-400">
+              <option key={city.name} value={city.name} className="bg-white dark:bg-[#1F2937] text-slate-900 dark:text-white">
                 {city.name}
               </option>
             ))}
@@ -372,16 +374,16 @@ function App() {
         </div>
 
         <div>
-          <Text className="text-gray-900 dark:text-green-300 dark:drop-shadow-[0_0_8px_rgba(34,197,94,0.6)]">Flight To</Text>
+          <label className="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">Flight To</label>
           <select
             value={selectedTo}
             onChange={(e) => setSelectedTo(e.target.value)}
-            className="mt-2 block w-full rounded border border-gray-300 dark:border-green-500 bg-white dark:bg-gray-900 p-2 text-gray-900 dark:text-green-400 dark:shadow-[0_0_10px_rgba(34,197,94,0.3)] focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 transition-all duration-300"
+            className="w-full px-4 py-3 rounded-xl bg-white dark:bg-[#1F2937]/90 border border-gray-300 dark:border-gray-700 text-slate-900 dark:text-white shadow-sm dark:shadow-[0_10px_30px_rgba(0,0,0,0.18)] focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500 focus:border-transparent transition-all duration-300"
           >
             {cities
               .filter((city) => city.name !== selectedFrom)
               .map((city) => (
-                <option key={city.name} value={city.name} className="bg-white dark:bg-gray-900 text-gray-900 dark:text-green-400">
+                <option key={city.name} value={city.name} className="bg-white dark:bg-[#1F2937] text-slate-900 dark:text-white">
                   {city.name}
                 </option>
               ))}
@@ -390,73 +392,89 @@ function App() {
       </div>
 
       {/* 📊 KPI Section */}
-      <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 mb-8 justify-items-center">
-        <Card className="bg-white dark:bg-gray-900 border-gray-200 dark:border-blue-500 dark:shadow-[0_0_15px_rgba(59,130,246,0.3)]">
-          <Text className="text-gray-900 dark:text-blue-300 dark:drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]">Total Flights</Text>
-          <Metric className="text-gray-900 dark:text-blue-400 dark:drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]">{totalFlights}</Metric>
+      <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 mb-8">
+        <Card className="bg-white/10 dark:bg-[#1F2937]/70 backdrop-blur-xl border border-white/20 dark:border-white/20 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.18)] p-6">
+          <Text className="text-slate-500 dark:text-slate-300 text-sm font-medium mb-2">Total Flights</Text>
+          <Metric className="text-slate-900 dark:text-blue-400 dark:drop-shadow-[0_0_16px_rgba(59,130,246,0.7)] text-3xl font-bold">{totalFlights}</Metric>
         </Card>
 
-        <Card className="bg-white dark:bg-gray-900 border-gray-200 dark:border-red-500 dark:shadow-[0_0_15px_rgba(239,68,68,0.3)]">
-          <Text className="text-gray-900 dark:text-red-300 dark:drop-shadow-[0_0_8px_rgba(239,68,68,0.6)]">Total Delays</Text>
-          <Metric className="text-gray-900 dark:text-red-400 dark:drop-shadow-[0_0_10px_rgba(239,68,68,0.8)]">{totalDelays}</Metric>
+        <Card className="bg-white dark:bg-[#1F2937]/95 border border-gray-200 dark:border-gray-700 rounded-xl shadow-md dark:shadow-[0_10px_30px_rgba(0,0,0,0.24)] p-6">
+          <Text className="text-slate-500 dark:text-slate-300 text-sm font-medium mb-2">Total Delays</Text>
+          <Metric className="text-slate-900 dark:text-red-400 dark:drop-shadow-[0_0_18px_rgba(248,113,113,0.65)] text-3xl font-bold">{totalDelays}</Metric>
         </Card>
 
-        <Card className="bg-white dark:bg-gray-900 border-gray-200 dark:border-yellow-500 dark:shadow-[0_0_15px_rgba(234,179,8,0.3)]">
-          <Text className="text-gray-900 dark:text-yellow-300 dark:drop-shadow-[0_0_8px_rgba(234,179,8,0.6)]">Delay Rate</Text>
-          <Metric className="text-gray-900 dark:text-yellow-400 dark:drop-shadow-[0_0_10px_rgba(234,179,8,0.8)]">{delayRate}%</Metric>
+        <Card className="bg-white dark:bg-[#1F2937]/95 border border-gray-200 dark:border-gray-700 rounded-xl shadow-md dark:shadow-[0_10px_30px_rgba(0,0,0,0.24)] p-6">
+          <Text className="text-slate-500 dark:text-slate-300 text-sm font-medium mb-2">Delay Rate</Text>
+          <Metric className="text-slate-900 dark:text-yellow-400 dark:drop-shadow-[0_0_18px_rgba(245,158,11,0.65)] text-3xl font-bold">{delayRate}%</Metric>
         </Card>
 
-        <Card className="bg-white dark:bg-gray-900 border-gray-200 dark:border-purple-500 dark:shadow-[0_0_15px_rgba(147,51,234,0.3)]">
-          <Text className="text-gray-900 dark:text-purple-300 dark:drop-shadow-[0_0_8px_rgba(147,51,234,0.6)]">Worst City</Text>
-          <Metric className="text-gray-900 dark:text-purple-400 dark:drop-shadow-[0_0_10px_rgba(147,51,234,0.8)]">{worstCity}</Metric>
+        <Card className="bg-white dark:bg-[#1F2937]/95 border border-gray-200 dark:border-gray-700 rounded-xl shadow-md dark:shadow-[0_10px_30px_rgba(0,0,0,0.24)] p-6">
+          <Text className="text-slate-500 dark:text-slate-300 text-sm font-medium mb-2">Worst City</Text>
+          <Metric className="text-slate-900 dark:text-cyan-400 dark:drop-shadow-[0_0_18px_rgba(34,211,238,0.65)] text-3xl font-bold">{worstCity}</Metric>
         </Card>
       </div>
 
       {/* 🗺️ Weather Map */}
-      <Card className="mt-8 max-w-4xl mx-auto bg-white dark:bg-gray-900 border-gray-200 dark:border-cyan-500 dark:shadow-[0_0_20px_rgba(34,211,238,0.4)]">
-        <Title className="text-gray-900 dark:text-cyan-300 dark:drop-shadow-[0_0_10px_rgba(34,211,238,0.7)]">🗺️ Live Weather Map</Title>
-        <div className="mt-6">
+      <Card className="mt-8 mb-8 bg-white/10 dark:bg-[#1F2937]/70 backdrop-blur-xl border border-white/20 dark:border-white/20 rounded-xl shadow-[0_25px_60px_rgba(0,0,0,0.25)] overflow-hidden">
+        <div className="p-6 border-b border-white/10 dark:border-white/15">
+          <Title className="text-slate-900 dark:text-white text-2xl font-bold dark:drop-shadow-[0_0_18px_rgba(56,189,248,0.55)]">🗺️ Live Weather Map</Title>
+          <p className="text-slate-500 dark:text-slate-300 mt-2">Interactive flight routes and weather overlay</p>
+        </div>
+        <div className="p-6">
           <MapComponent cities={cities} mapConfig={mapConfigWithSelection} selectedFrom={selectedFrom} selectedTo={selectedTo} />
         </div>
       </Card>
       
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-12 justify-items-center">
-
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 mt-8">
         <CityCard city={selectedFromCity} flights={selectedFromCity} />
         <CityCard city={selectedToCity} flights={selectedToCity} />
-
       </div>
 
       {/* 📈 Temperature Chart */}
-      <Card className="mt-8 max-w-4xl mx-auto bg-white dark:bg-gray-900 border-gray-200 dark:border-green-500 dark:shadow-[0_0_20px_rgba(34,197,94,0.4)]">
-        <Title className="text-gray-900 dark:text-green-300 dark:drop-shadow-[0_0_10px_rgba(34,197,94,0.7)]">Weekly Temperature Comparison</Title>
-        <LineChart
-          className="mt-6"
-          data={chartData}
-          index="date"
-          categories={[selectedFrom, selectedTo]}
-          colors={["blue", "red"]}
-          yAxisWidth={50}
-        />
+      <Card className="mt-8 mb-6 bg-white/10 dark:bg-[#1F2937]/70 backdrop-blur-xl border border-white/20 dark:border-white/20 rounded-xl shadow-[0_25px_60px_rgba(0,0,0,0.25)] overflow-hidden">
+        <div className="p-6 border-b border-white/10 dark:border-white/15">
+          <Title className="text-slate-900 dark:text-white text-xl font-bold dark:drop-shadow-[0_0_16px_rgba(56,189,248,0.5)]">Weekly Temperature Comparison</Title>
+          <p className="text-slate-500 dark:text-slate-300 mt-1">Temperature trends for selected routes</p>
+        </div>
+        <div className="p-6">
+          <LineChart
+            className="h-80"
+            data={chartData}
+            index="date"
+            categories={[selectedFrom, selectedTo]}
+            colors={["blue", "cyan"]}
+            yAxisWidth={60}
+            showLegend={true}
+            showGridLines={false}
+          />
+        </div>
       </Card>
 
 
       {/* 📊 Impact Chart */}
-      <Card className="mt-8 max-w-4xl mx-auto bg-white dark:bg-gray-900 border-gray-200 dark:border-yellow-500 dark:shadow-[0_0_20px_rgba(234,179,8,0.4)]">
-        <Title className="text-gray-900 dark:text-yellow-300 dark:drop-shadow-[0_0_10px_rgba(234,179,8,0.7)]">Weather vs Flight Delay</Title>
-        <LineChart
-          className="mt-6"
-          data={selectedImpactData}
-          index="day"
-          categories={["delay", "severity"]}
-          colors={["red", "blue"]}
-        />
+      <Card className="mb-6 bg-white/10 dark:bg-[#1F2937]/70 backdrop-blur-xl border border-white/20 dark:border-white/20 rounded-xl shadow-[0_25px_60px_rgba(0,0,0,0.25)] overflow-hidden">
+        <div className="p-6 border-b border-white/10 dark:border-white/15">
+          <Title className="text-slate-900 dark:text-white text-xl font-bold dark:drop-shadow-[0_0_16px_rgba(248,113,113,0.5)]">Weather vs Flight Delay</Title>
+          <p className="text-slate-500 dark:text-slate-300 mt-1">Correlation between weather severity and flight delays</p>
+        </div>
+        <div className="p-6">
+          <LineChart
+            className="h-80"
+            data={selectedImpactData}
+            index="day"
+            categories={["delay", "severity"]}
+            colors={["red", "yellow"]}
+            yAxisWidth={60}
+            showLegend={true}
+            showGridLines={false}
+          />
+        </div>
       </Card>
 
       {/* 🧠 Insights */}
-      <Card className="mt-8 bg-blue-50 dark:bg-gray-900 max-w-4xl mx-auto border-gray-200 dark:border-pink-500 dark:shadow-[0_0_20px_rgba(236,72,153,0.4)]">
-        <Title className="text-gray-900 dark:text-pink-300 dark:drop-shadow-[0_0_10px_rgba(236,72,153,0.7)]">Insights</Title>
-        <Text className="mt-4 text-gray-900 dark:text-pink-400 dark:drop-shadow-[0_0_8px_rgba(236,72,153,0.6)]">{insight}</Text>
+      <Card className="bg-white/10 dark:bg-[#1F2937]/70 backdrop-blur-xl border border-white/20 dark:border-white/20 rounded-xl shadow-[0_25px_60px_rgba(0,0,0,0.25)] p-6">
+        <Title className="text-slate-900 dark:text-white text-lg font-bold mb-3 dark:drop-shadow-[0_0_16px_rgba(34,211,238,0.45)]">AI Insights</Title>
+        <Text className="text-slate-600 dark:text-slate-300 leading-relaxed">{insight}</Text>
       </Card>
     </div>
   </div>
