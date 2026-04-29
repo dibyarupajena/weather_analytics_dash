@@ -5,6 +5,21 @@ import { useEffect, useMemo, useState } from "react";
 import { Card, Metric, Text, Title, LineChart, DonutChart } from "@tremor/react";
 import MapComponent from "./MapComponent";
 
+interface FlightRoute {
+  from: string;
+  to: string;
+  color: string;
+  weight: number;
+  opacity: number;
+  highlighted?: boolean;
+}
+
+interface MapConfig {
+  center: [number, number];
+  zoom: number;
+  flightRoutes: FlightRoute[];
+}
+
 // ⚡ Severity Calculation
 const getSeverity = (city: any) => {
   return parseFloat((
@@ -65,8 +80,9 @@ const CityCard = ({ city, flights }: { city: any, flights: any }) => {
 
 function App() {
   const [cities, setCities] = useState<any[]>([]);
-  const [impactData, setImpactData] = useState<any[]>([]);
-  const [mapConfig, setMapConfig] = useState<any>(null);
+  const [mapConfig, setMapConfig] = useState<MapConfig | null>(null);
+  const [selectedFrom, setSelectedFrom] = useState<string>("Bangalore");
+  const [selectedTo, setSelectedTo] = useState<string>("Delhi");
 
   const fetchData = async () => {
     // Always prepare fallback data first
@@ -78,18 +94,42 @@ function App() {
       { name: "Delhi", temperature: 34, humidity: 55, airQuality: 3.2, coordinates: [28.7041, 77.1025], daily: [
         { date: "2024-01-01", temp: 33, humidity: 60 },
         { date: "2024-01-02", temp: 35, humidity: 50 }
-      ], totalFlights: 150, delayedFlights: 48, avgDelay: 32 }
+      ], totalFlights: 150, delayedFlights: 48, avgDelay: 32 },
+      { name: "Mumbai", temperature: 32, humidity: 72, airQuality: 4.1, coordinates: [19.0760, 72.8777], daily: [
+        { date: "2024-01-01", temp: 31, humidity: 75 },
+        { date: "2024-01-02", temp: 33, humidity: 70 }
+      ], totalFlights: 140, delayedFlights: 35, avgDelay: 22 },
+      { name: "Chennai", temperature: 30, humidity: 68, airQuality: 5.9, coordinates: [13.0827, 80.2707], daily: [
+        { date: "2024-01-01", temp: 29, humidity: 70 },
+        { date: "2024-01-02", temp: 31, humidity: 65 }
+      ], totalFlights: 110, delayedFlights: 28, avgDelay: 20 },
+      { name: "Kolkata", temperature: 31, humidity: 62, airQuality: 3.8, coordinates: [22.5726, 88.3639], daily: [
+        { date: "2024-01-01", temp: 30, humidity: 65 },
+        { date: "2024-01-02", temp: 32, humidity: 60 }
+      ], totalFlights: 100, delayedFlights: 32, avgDelay: 25 },
+      { name: "Hyderabad", temperature: 28, humidity: 58, airQuality: 5.5, coordinates: [17.3850, 78.4867], daily: [
+        { date: "2024-01-01", temp: 27, humidity: 60 },
+        { date: "2024-01-02", temp: 29, humidity: 55 }
+      ], totalFlights: 90, delayedFlights: 18, avgDelay: 15 },
+      { name: "Pune", temperature: 26, humidity: 60, airQuality: 7.2, coordinates: [18.5204, 73.8567], daily: [
+        { date: "2024-01-01", temp: 25, humidity: 62 },
+        { date: "2024-01-02", temp: 27, humidity: 58 }
+      ], totalFlights: 80, delayedFlights: 12, avgDelay: 10 },
+      { name: "Ahmedabad", temperature: 32, humidity: 48, airQuality: 4.5, coordinates: [23.0225, 72.5714], daily: [
+        { date: "2024-01-01", temp: 31, humidity: 50 },
+        { date: "2024-01-02", temp: 33, humidity: 45 }
+      ], totalFlights: 70, delayedFlights: 15, avgDelay: 12 },
+      { name: "Jaipur", temperature: 30, humidity: 45, airQuality: 6.1, coordinates: [26.9124, 75.7873], daily: [
+        { date: "2024-01-01", temp: 29, humidity: 48 },
+        { date: "2024-01-02", temp: 31, humidity: 42 }
+      ], totalFlights: 75, delayedFlights: 16, avgDelay: 14 },
+      { name: "Lucknow", temperature: 29, humidity: 55, airQuality: 4.8, coordinates: [26.8467, 80.9462], daily: [
+        { date: "2024-01-01", temp: 28, humidity: 58 },
+        { date: "2024-01-02", temp: 30, humidity: 52 }
+      ], totalFlights: 85, delayedFlights: 20, avgDelay: 16 }
     ];
 
-    const fallbackImpactData = [
-      { day: "Mon", delay: 20, severity: 6 },
-      { day: "Tue", delay: 35, severity: 8 },
-      { day: "Wed", delay: 25, severity: 5 },
-      { day: "Thu", delay: 40, severity: 9 },
-      { day: "Fri", delay: 30, severity: 7 }
-    ];
-
-    const fallbackMapConfig = {
+    const fallbackMapConfig: MapConfig = {
       center: [20.5937, 78.9629],
       zoom: 5,
       flightRoutes: [
@@ -166,29 +206,14 @@ function App() {
       });
 
       // Generate impact data from real cities
-      const realImpactData = ["Mon", "Tue", "Wed", "Thu", "Fri"].map(day => {
-        const bangalore = processedCities.find(c => c.name === 'Bangalore');
-        const delhi = processedCities.find(c => c.name === 'Delhi');
-        const avgSeverity = bangalore && delhi ?
-          (getSeverity(bangalore) + getSeverity(delhi)) / 2 : 6;
-
-        return {
-          day,
-          delay: Math.min(Math.floor(avgSeverity * 2 + Math.random() * 10), 50),
-          severity: Math.floor(avgSeverity)
-        };
-      });
-
       // Set real data
       setCities(processedCities);
-      setImpactData(realImpactData);
       setMapConfig(fallbackMapConfig);
 
     } catch (error) {
       console.log('Using fallback data:', error);
       // Set fallback data
       setCities(fallbackCities);
-      setImpactData(fallbackImpactData);
       setMapConfig(fallbackMapConfig);
     }
   };
@@ -202,52 +227,133 @@ function App() {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    if (selectedFrom === selectedTo && cities.length > 1) {
+      const nextCity = cities.find(c => c.name !== selectedFrom)?.name;
+      if (nextCity) {
+        setSelectedTo(nextCity);
+      }
+    }
+  }, [selectedFrom, selectedTo, cities]);
+
+  const selectedFromCity = cities.find(c => c.name === selectedFrom);
+  const selectedToCity = cities.find(c => c.name === selectedTo);
+
   const chartData = useMemo(() => {
-    if (!cities || cities.length < 2) return [];
+    if (!selectedFromCity || !selectedToCity) return [];
 
-    // Use Bangalore and Delhi for the chart (first two cities)
-    const bangalore = cities.find(c => c.name === 'Bangalore');
-    const delhi = cities.find(c => c.name === 'Delhi');
-
-    if (!bangalore || !delhi) return [];
-
-    return bangalore.daily.map(({ date, temp }: any) => {
-      const delhiData = delhi.daily.find((d: any) => d.date === date);
+    return selectedFromCity.daily.map(({ date, temp }: any) => {
+      const toDay = selectedToCity.daily.find((d: any) => d.date === date);
       return {
         date,
-        Bangalore: temp,
-        Delhi: delhiData?.temp
+        [selectedFrom]: temp,
+        [selectedTo]: toDay?.temp
       };
     });
-  }, [cities]);
+  }, [selectedFromCity, selectedToCity, selectedFrom, selectedTo]);
 
-  if (!cities || cities.length === 0) {
+  const selectedImpactData = useMemo(() => {
+    if (!selectedFromCity || !selectedToCity) return [];
+
+    const avgSeverity = (getSeverity(selectedFromCity) + getSeverity(selectedToCity)) / 2;
+
+    return ["Mon", "Tue", "Wed", "Thu", "Fri"].map(day => ({
+      day,
+      delay: Math.min(Math.floor(avgSeverity * 2 + Math.random() * 10), 50),
+      severity: Math.floor(avgSeverity)
+    }));
+  }, [selectedFromCity, selectedToCity]);
+
+  const mapConfigWithSelection = useMemo(() => {
+    if (!mapConfig) return mapConfig;
+
+    const selectedRouteExists = mapConfig.flightRoutes.some(route =>
+      (route.from === selectedFrom && route.to === selectedTo) ||
+      (route.from === selectedTo && route.to === selectedFrom)
+    );
+
+    const updatedRoutes = mapConfig.flightRoutes.map(route => ({
+      ...route,
+      highlighted: (route.from === selectedFrom && route.to === selectedTo) ||
+        (route.from === selectedTo && route.to === selectedFrom)
+    }));
+
+    if (selectedFrom !== selectedTo && !selectedRouteExists) {
+      updatedRoutes.push({
+        from: selectedFrom,
+        to: selectedTo,
+        color: "#ff6b6b",
+        weight: 4,
+        opacity: 0.9,
+        highlighted: true
+      });
+    }
+
+    return {
+      ...mapConfig,
+      flightRoutes: updatedRoutes
+    };
+  }, [mapConfig, selectedFrom, selectedTo]);
+
+  if (!cities || cities.length === 0 || !selectedFromCity || !selectedToCity || !mapConfigWithSelection) {
     return <div className="p-6">Loading...</div>;
   }
 
   // 📊 KPI Calculations (moved after loading check)
-  const bangalore = cities.find(c => c.name === 'Bangalore');
-  const delhi = cities.find(c => c.name === 'Delhi');
-  const totalFlights = bangalore.totalFlights + delhi.totalFlights;
-  const totalDelays = bangalore.delayedFlights + delhi.delayedFlights;
+  const totalFlights = selectedFromCity.totalFlights + selectedToCity.totalFlights;
+  const totalDelays = selectedFromCity.delayedFlights + selectedToCity.delayedFlights;
   const delayRate = ((totalDelays / totalFlights) * 100).toFixed(1);
 
   // 🔥 Worst City Logic
-  const worstCity = getSeverity(bangalore) > getSeverity(delhi) ? bangalore.name : delhi.name;
+  const worstCity = getSeverity(selectedFromCity) > getSeverity(selectedToCity) ? selectedFromCity.name : selectedToCity.name;
 
   // 🧠 Insight Logic
   const insight =
-    worstCity === "Delhi"
-      ? "Delhi shows higher delays due to poor air quality and higher temperature."
-      : "Bangalore is currently more impacted due to weather instability.";
+    worstCity === selectedFromCity.name
+      ? `${selectedFromCity.name} is currently more impacted due to weather instability.`
+      : `${selectedToCity.name} is currently more impacted due to weather instability.`;
 
   return (
     <div className="bg-gray-100 min-h-screen py-6 flex justify-center">
       <div className="w-full max-w-7xl px-4 sm:px-6 lg:px-8">
 
 
-        {/* 📊 KPI Section */}
-        <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 mb-8 justify-items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div>
+          <Text>Flight From</Text>
+          <select
+            value={selectedFrom}
+            onChange={(e) => setSelectedFrom(e.target.value)}
+            className="mt-2 block w-full rounded border border-gray-300 bg-white p-2 text-gray-900 font-medium"
+          >
+            {cities.map((city) => (
+              <option key={city.name} value={city.name}>
+                {city.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <Text>Flight To</Text>
+          <select
+            value={selectedTo}
+            onChange={(e) => setSelectedTo(e.target.value)}
+            className="mt-2 block w-full rounded border border-gray-300 bg-white p-2 text-gray-900 font-medium"
+          >
+            {cities
+              .filter((city) => city.name !== selectedFrom)
+              .map((city) => (
+                <option key={city.name} value={city.name}>
+                  {city.name}
+                </option>
+              ))}
+          </select>
+        </div>
+      </div>
+
+      {/* 📊 KPI Section */}
+      <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 mb-8 justify-items-center">
         <Card>
           <Text>Total Flights</Text>
           <Metric>{totalFlights}</Metric>
@@ -273,14 +379,14 @@ function App() {
       <Card className="mt-8 max-w-4xl mx-auto">
         <Title>🗺️ Live Weather Map</Title>
         <div className="mt-6">
-          <MapComponent cities={cities} mapConfig={mapConfig} />
+          <MapComponent cities={cities} mapConfig={mapConfigWithSelection} selectedFrom={selectedFrom} selectedTo={selectedTo} />
         </div>
       </Card>
       
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-12 justify-items-center">
 
-        <CityCard city={cities.find(c => c.name === 'Bangalore')} flights={cities.find(c => c.name === 'Bangalore')} />
-        <CityCard city={cities.find(c => c.name === 'Delhi')} flights={cities.find(c => c.name === 'Delhi')} />
+        <CityCard city={selectedFromCity} flights={selectedFromCity} />
+        <CityCard city={selectedToCity} flights={selectedToCity} />
 
       </div>
 
@@ -291,7 +397,7 @@ function App() {
           className="mt-6"
           data={chartData}
           index="date"
-          categories={["Bangalore", "Delhi"]}
+          categories={[selectedFrom, selectedTo]}
           colors={["blue", "red"]}
           yAxisWidth={50}
         />
@@ -303,7 +409,7 @@ function App() {
         <Title>Weather vs Flight Delay</Title>
         <LineChart
           className="mt-6"
-          data={impactData}
+          data={selectedImpactData}
           index="day"
           categories={["delay", "severity"]}
           colors={["red", "blue"]}

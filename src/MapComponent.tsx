@@ -40,9 +40,11 @@ interface MapConfig {
 interface MapComponentProps {
   cities: City[]; // Changed from city1, city2 to cities array
   mapConfig: MapConfig;
+  selectedFrom: string;
+  selectedTo: string;
 }
 
-const MapComponent = ({ cities, mapConfig }: MapComponentProps) => {
+const MapComponent = ({ cities, mapConfig, selectedFrom, selectedTo }: MapComponentProps) => {
   // 📌 useRef = "Keep a reference to a DOM element"
   // This lets us access the HTML div element from JavaScript
   const mapContainer = useRef<HTMLDivElement>(null);
@@ -58,9 +60,11 @@ const MapComponent = ({ cities, mapConfig }: MapComponentProps) => {
       return (city.humidity * 0.3 + city.temperature * 0.2 + city.airQuality * 5);
     };
 
-    // 🎨 Check if city is part of a highlighted route
+    // 🎨 Check if city is part of the selected route or any highlighted route
     const isHighlightedRouteCity = (cityName: string): boolean => {
-      return mapConfig.flightRoutes.some(route => 
+      if (cityName === selectedFrom || cityName === selectedTo) return true;
+
+      return mapConfig.flightRoutes.some(route =>
         route.highlighted && (route.from === cityName || route.to === cityName)
       );
     };
@@ -173,18 +177,20 @@ const MapComponent = ({ cities, mapConfig }: MapComponentProps) => {
     mapConfig.flightRoutes.forEach((route) => {
       const fromCity = cities.find(c => c.name === route.from);
       const toCity = cities.find(c => c.name === route.to);
+      const isSelectedRoute =
+        (route.from === selectedFrom && route.to === selectedTo) ||
+        (route.from === selectedTo && route.to === selectedFrom);
+      const isHighlightedRoute = route.highlighted || isSelectedRoute;
 
       if (fromCity && toCity) {
-        // Create flight path with different styling for highlighted routes
         const flightPath = L.polyline([fromCity.coordinates, toCity.coordinates], {
-          color: route.color,
-          weight: route.highlighted ? route.weight + 2 : route.weight, // Thicker line for highlighted routes
+          color: isHighlightedRoute ? '#ff6b6b' : '#3b82f6',
+          weight: isHighlightedRoute ? route.weight + 2 : route.weight,
           opacity: route.opacity,
-          dashArray: route.highlighted ? undefined : '10, 10', // Solid line for highlighted, dashed for others
+          dashArray: isHighlightedRoute ? undefined : '10, 10',
         }).addTo(map);
 
-        // Add flight path popup with different styling for highlighted routes
-        const routeType = route.highlighted ? '⭐ Highlighted Route' : 'Flight Route';
+        const routeType = isHighlightedRoute ? '⭐ Selected Route' : 'Flight Route';
         flightPath.bindPopup(`
           <div style="text-align: center;">
             <h4>✈️ ${routeType}</h4>
@@ -195,12 +201,29 @@ const MapComponent = ({ cities, mapConfig }: MapComponentProps) => {
       }
     });
 
+    const selectedRouteExists = mapConfig.flightRoutes.some(route =>
+      (route.from === selectedFrom && route.to === selectedTo) ||
+      (route.from === selectedTo && route.to === selectedFrom)
+    );
+
+    if (selectedFrom && selectedTo && selectedFrom !== selectedTo && !selectedRouteExists) {
+      const fromCity = cities.find(c => c.name === selectedFrom);
+      const toCity = cities.find(c => c.name === selectedTo);
+      if (fromCity && toCity) {
+        L.polyline([fromCity.coordinates, toCity.coordinates], {
+          color: '#ff6b6b',
+          weight: 6,
+          opacity: 0.95,
+        }).addTo(map);
+      }
+    }
+
     // 🧹 Cleanup function (runs when component is removed)
     // Remove the map from memory to prevent memory leaks
     return () => {
       map.remove();
     };
-  }, [cities, mapConfig]); // Re-run when any data changes
+  }, [cities, mapConfig, selectedFrom, selectedTo]); // Re-run when any data changes
 
   // 🎨 Return the HTML
   // This creates the container where the map will be displayed
