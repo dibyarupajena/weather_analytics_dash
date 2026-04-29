@@ -58,11 +58,23 @@ const MapComponent = ({ cities, mapConfig }: MapComponentProps) => {
       return (city.humidity * 0.3 + city.temperature * 0.2 + city.airQuality * 5);
     };
 
+    // 🎨 Check if city is part of a highlighted route
+    const isHighlightedRouteCity = (cityName: string): boolean => {
+      return mapConfig.flightRoutes.some(route => 
+        route.highlighted && (route.from === cityName || route.to === cityName)
+      );
+    };
+
     // 🎨 Color Coding Function
-    const getMarkerColor = (severity: number) => {
-      if (severity < 50) return 'green';      // Good weather
-      if (severity < 80) return 'orange';    // Moderate weather
-      return 'red';                          // Bad weather
+    const getMarkerColor = (severity: number, isHighlighted: boolean) => {
+      if (isHighlighted) {
+        return '#a84a4a'; // Muted dark red for highlighted route locations
+      }
+      // Different shades of blue based on severity
+      if (severity < 50) return '#93c5fd';     // Light blue - Good weather
+      if (severity < 75) return '#60a5fa';     // Medium-light blue - Moderate weather
+      if (severity < 100) return '#2563eb';    // Medium-dark blue - Bad weather
+      return '#1e40af';                        // Dark blue - Very bad weather
     };
 
     // 🗺️ Step 1: Create the map
@@ -95,10 +107,23 @@ const MapComponent = ({ cities, mapConfig }: MapComponentProps) => {
     // 📍 Step 4: Add markers for all cities with color coding
     cities.forEach((city) => {
       const severity = getSeverity(city);
-      const color = getMarkerColor(severity);
+      const isHighlighted = isHighlightedRouteCity(city.name);
+      const color = getMarkerColor(severity, isHighlighted);
 
       // Create custom marker icon using the place name in a muted, semi-transparent bubble
-      const bubbleColor = severity < 50 ? 'rgba(34, 197, 94, 0.75)' : severity < 80 ? 'rgba(251, 146, 60, 0.75)' : 'rgba(239, 68, 68, 0.75)';
+      let bubbleColor: string;
+      if (isHighlighted) {
+        bubbleColor = 'rgba(168, 74, 74, 0.75)'; // Muted dark red for highlighted routes
+      } else if (severity < 50) {
+        bubbleColor = 'rgba(147, 197, 253, 0.75)'; // Light blue - Good
+      } else if (severity < 75) {
+        bubbleColor = 'rgba(96, 165, 250, 0.75)'; // Medium-light blue - Moderate
+      } else if (severity < 100) {
+        bubbleColor = 'rgba(37, 99, 235, 0.75)'; // Medium-dark blue - Bad
+      } else {
+        bubbleColor = 'rgba(30, 64, 175, 0.75)'; // Dark blue - Very bad
+      }
+
       const customIcon = L.divIcon({
         className: 'custom-marker',
         html: `<div style="
@@ -119,7 +144,7 @@ const MapComponent = ({ cities, mapConfig }: MapComponentProps) => {
       const marker = L.marker(city.coordinates, { icon: customIcon }).addTo(map);
 
       // Tooltip shows more details on hover instead of click
-      const severityText = severity < 50 ? 'Good' : severity < 80 ? 'Moderate' : 'Severe';
+      const severityText = severity < 50 ? 'Good' : severity < 75 ? 'Moderate' : 'Severe';
       const tooltipHtml = `
         <div style="text-align:left; min-width: 220px; padding: 8px;">
           <div style="font-weight: 700; margin-bottom: 6px; color: ${color};">${city.name}</div>
