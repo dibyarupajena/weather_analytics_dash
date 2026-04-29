@@ -81,12 +81,27 @@ const MapComponent = ({ cities, mapConfig, selectedFrom, selectedTo }: MapCompon
       return '#1e40af';                        // Dark blue - Very bad weather
     };
 
-    // 🗺️ Step 1: Create the map
+    // 🗺️ Step 1: Create the map focused on India
     // L.map() = Create a new Leaflet map
     // .setView() = Set where the map is centered and how zoomed in
     // mapConfig.center = Coordinates from data.json
     // mapConfig.zoom = Zoom level from data.json
-    const map = L.map(mapContainer.current).setView(mapConfig.center, mapConfig.zoom);
+    const indiaBounds = L.latLngBounds(
+      [6.5546079, 68.1113787], // southwest corner
+      [35.6745457, 97.395561]  // northeast corner
+    );
+
+    const map = L.map(mapContainer.current, {
+      maxBounds: indiaBounds,
+      maxBoundsViscosity: 0.75,
+      minZoom: 4,
+      maxZoom: 7,
+      zoomControl: true,
+      attributionControl: true,
+      worldCopyJump: false
+    }).setView(mapConfig.center, mapConfig.zoom);
+
+    map.fitBounds(indiaBounds, { padding: [50, 50] });
 
     // 🖼️ Step 2: Add the background satellite imagery
     // This is like putting a background photo on your canvas
