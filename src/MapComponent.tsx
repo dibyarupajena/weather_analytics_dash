@@ -173,7 +173,75 @@ const MapComponent = ({ cities, mapConfig, selectedFrom, selectedTo }: MapCompon
       });
     });
 
-    // ✈️ Step 5: Add flight routes between cities
+    // ✈️ Step 5: Add flight routes between cities with curves and airplane icon
+    
+    // Helper function to create curved path points using arc interpolation
+    const createCurvedPath = (start: [number, number], end: [number, number], points: number = 50) => {
+      const path: [number, number][] = [];
+      const mid = [(start[0] + end[0]) / 2, (start[1] + end[1]) / 2] as [number, number];
+      
+      // Calculate perpendicular offset for curve
+      const dx = end[0] - start[0];
+      const dy = end[1] - start[1];
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      const offset = distance * 0.15; // Curve intensity
+      
+      // Perpendicular direction
+      const perpX = -dy / distance;
+      const perpY = dx / distance;
+      
+      const controlPoint: [number, number] = [mid[0] + perpX * offset, mid[1] + perpY * offset];
+      
+      // Generate points along quadratic Bezier curve
+      for (let i = 0; i <= points; i++) {
+        const t = i / points;
+        const mt = 1 - t;
+        
+        const x = mt * mt * start[0] + 2 * mt * t * controlPoint[0] + t * t * end[0];
+        const y = mt * mt * start[1] + 2 * mt * t * controlPoint[1] + t * t * end[1];
+        
+        path.push([x, y]);
+      }
+      
+      return path;
+    };
+
+    // Helper function to calculate bearing/angle between two points
+    const calculateBearing = (start: [number, number], end: [number, number]) => {
+      const lat1 = (start[0] * Math.PI) / 180;
+      const lat2 = (end[0] * Math.PI) / 180;
+      const dLon = ((end[1] - start[1]) * Math.PI) / 180;
+
+      const y = Math.sin(dLon) * Math.cos(lat2);
+      const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+
+      const bearing = Math.atan2(y, x) * (180 / Math.PI);
+      return bearing;
+    };
+
+    // Create airplane icon SVG (top-down view)
+    const createAirplaneIcon = (bearing: number, color: string, size: number = 30) => {
+      const svg = `
+        <svg width="${size}" height="${size}" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+          <g transform="rotate(${bearing + 90} 20 20)">
+            <!-- Fuselage -->
+            <rect x="18" y="8" width="4" height="24" fill="${color}"/>
+            <!-- Left Wing -->
+            <rect x="8" y="16" width="12" height="4" fill="${color}"/>
+            <!-- Right Wing -->
+            <rect x="20" y="16" width="12" height="4" fill="${color}"/>
+            <!-- Tail Left -->
+            <polygon points="18,30 16,32 18,36" fill="${color}"/>
+            <!-- Tail Right -->
+            <polygon points="22,30 24,32 22,36" fill="${color}"/>
+            <!-- Nose -->
+            <polygon points="18,8 20,6 22,8" fill="${color}"/>
+          </g>
+        </svg>
+      `;
+      return svg;
+    };
+
     mapConfig.flightRoutes.forEach((route) => {
       const fromCity = cities.find(c => c.name === route.from);
       const toCity = cities.find(c => c.name === route.to);
@@ -183,12 +251,32 @@ const MapComponent = ({ cities, mapConfig, selectedFrom, selectedTo }: MapCompon
       const isHighlightedRoute = route.highlighted || isSelectedRoute;
 
       if (fromCity && toCity) {
-        const flightPath = L.polyline([fromCity.coordinates, toCity.coordinates], {
+        // Create curved path
+        const curvedPath = createCurvedPath(fromCity.coordinates, toCity.coordinates);
+        
+        const flightPath = L.polyline(curvedPath, {
           color: isHighlightedRoute ? '#ff6b6b' : '#3b82f6',
-          weight: isHighlightedRoute ? route.weight + 2 : route.weight,
-          opacity: route.opacity,
-          dashArray: isHighlightedRoute ? undefined : '10, 10',
+          weight: isHighlightedRoute ? 3 : 2,
+          opacity: isHighlightedRoute ? 0.9 : 0.6,
+          dashArray: '8, 6',
         }).addTo(map);
+
+        // Add airplane icon at midpoint
+        const midIndex = Math.floor(curvedPath.length / 2);
+        const midPoint = curvedPath[midIndex];
+        
+        const bearing = calculateBearing(fromCity.coordinates, toCity.coordinates);
+        const iconColor = isHighlightedRoute ? '#ff6b6b' : '#3b82f6';
+        const svgIcon = createAirplaneIcon(bearing, iconColor, isHighlightedRoute ? 36 : 30);
+        
+        const airplaneIcon = L.divIcon({
+          className: 'airplane-icon',
+          html: svgIcon,
+          iconSize: [isHighlightedRoute ? 36 : 30, isHighlightedRoute ? 36 : 30],
+          iconAnchor: [isHighlightedRoute ? 18 : 15, isHighlightedRoute ? 18 : 15]
+        });
+        
+        L.marker(midPoint, { icon: airplaneIcon }).addTo(map);
 
         const routeType = isHighlightedRoute ? '⭐ Selected Route' : 'Flight Route';
         flightPath.bindPopup(`
@@ -210,11 +298,30 @@ const MapComponent = ({ cities, mapConfig, selectedFrom, selectedTo }: MapCompon
       const fromCity = cities.find(c => c.name === selectedFrom);
       const toCity = cities.find(c => c.name === selectedTo);
       if (fromCity && toCity) {
-        L.polyline([fromCity.coordinates, toCity.coordinates], {
+        const curvedPath = createCurvedPath(fromCity.coordinates, toCity.coordinates);
+        
+        L.polyline(curvedPath, {
           color: '#ff6b6b',
-          weight: 6,
-          opacity: 0.95,
+          weight: 3,
+          opacity: 0.9,
+          dashArray: '8, 6',
         }).addTo(map);
+        
+        // Add airplane icon at midpoint for selected route
+        const midIndex = Math.floor(curvedPath.length / 2);
+        const midPoint = curvedPath[midIndex];
+        
+        const bearing = calculateBearing(fromCity.coordinates, toCity.coordinates);
+        const svgIcon = createAirplaneIcon(bearing, '#ff6b6b', 36);
+        
+        const airplaneIcon = L.divIcon({
+          className: 'airplane-icon',
+          html: svgIcon,
+          iconSize: [36, 36],
+          iconAnchor: [18, 18]
+        });
+        
+        L.marker(midPoint, { icon: airplaneIcon }).addTo(map);
       }
     }
 

@@ -129,32 +129,41 @@ function App() {
       ], totalFlights: 85, delayedFlights: 20, avgDelay: 16 }
     ];
 
+    const majorCitiesList = [
+      { name: 'Bangalore', coords: [12.9716, 77.5946] },
+      { name: 'Delhi', coords: [28.7041, 77.1025] },
+      { name: 'Mumbai', coords: [19.0760, 72.8777] },
+      { name: 'Chennai', coords: [13.0827, 80.2707] },
+      { name: 'Kolkata', coords: [22.5726, 88.3639] },
+      { name: 'Hyderabad', coords: [17.3850, 78.4867] },
+      { name: 'Pune', coords: [18.5204, 73.8567] },
+      { name: 'Ahmedabad', coords: [23.0225, 72.5714] },
+      { name: 'Jaipur', coords: [26.9124, 75.7873] },
+      { name: 'Lucknow', coords: [26.8467, 80.9462] }
+    ];
+
+    // Generate routes between all major cities
+    const allFlightRoutes: FlightRoute[] = [];
+    for (let i = 0; i < majorCitiesList.length; i++) {
+      for (let j = i + 1; j < majorCitiesList.length; j++) {
+        allFlightRoutes.push({
+          from: majorCitiesList[i].name,
+          to: majorCitiesList[j].name,
+          color: "#3b82f6",
+          weight: 2,
+          opacity: 0.6
+        });
+      }
+    }
+
     const fallbackMapConfig: MapConfig = {
       center: [20.5937, 78.9629],
       zoom: 5,
-      flightRoutes: [
-        { from: "Bangalore", to: "Delhi", color: "#ff6b6b", weight: 4, opacity: 0.9, highlighted: true },
-        { from: "Bangalore", to: "Mumbai", color: "#3b82f6", weight: 2, opacity: 0.7 },
-        { from: "Delhi", to: "Mumbai", color: "#3b82f6", weight: 2, opacity: 0.7 }
-      ]
+      flightRoutes: allFlightRoutes
     };
 
     try {
-      // Try to get real weather data
-      const majorCities = [
-        { name: 'Bangalore', coords: [12.9716, 77.5946] },
-        { name: 'Delhi', coords: [28.7041, 77.1025] },
-        { name: 'Mumbai', coords: [19.0760, 72.8777] },
-        { name: 'Chennai', coords: [13.0827, 80.2707] },
-        { name: 'Kolkata', coords: [22.5726, 88.3639] },
-        { name: 'Hyderabad', coords: [17.3850, 78.4867] },
-        { name: 'Pune', coords: [18.5204, 73.8567] },
-        { name: 'Ahmedabad', coords: [23.0225, 72.5714] },
-        { name: 'Jaipur', coords: [26.9124, 75.7873] },
-        { name: 'Lucknow', coords: [26.8467, 80.9462] }
-      ];
-
-      const weatherPromises = majorCities.map(city =>
+      const weatherPromises = majorCitiesList.map(city =>
         fetch(`https://wttr.in/${city.name}?format=j1`)
           .then(r => r.json())
           .catch(() => null)
@@ -163,7 +172,7 @@ function App() {
       const weatherData = await Promise.all(weatherPromises);
 
       // Process cities with real data
-      const processedCities = majorCities.map((city, index) => {
+      const processedCities = majorCitiesList.map((city, index) => {
         const weather = weatherData[index];
         const current = weather?.current_condition?.[0];
         const forecast = weather?.weather || [];
@@ -315,7 +324,7 @@ function App() {
 
   return (
     <div className="bg-gray-100 min-h-screen py-6 flex justify-center">
-      <div className="w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
