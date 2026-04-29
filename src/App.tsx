@@ -52,29 +52,29 @@ const CityCard = ({ city, flights }: { city: any, flights: any }) => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="bg-white/15 dark:bg-[#1F2937]/70 backdrop-blur-xl border border-white/20 dark:border-white/20 rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.18)] p-4">
-          <Text className="text-slate-500 dark:text-slate-300 text-sm font-medium mb-1">Temperature</Text>
-          <Metric className="text-slate-900 dark:text-green-400 text-2xl font-bold">{city.temperature}°C</Metric>
+          <Text className="text-slate-500 dark:text-green-300 text-base md:text-lg font-semibold mb-1 dark:drop-shadow-[0_0_12px_rgba(34,197,94,0.35)]">Temperature</Text>
+          <Metric className="text-slate-900 dark:text-white text-xl font-bold">{city.temperature}°C</Metric>
         </Card>
 
         <Card className="bg-white/15 dark:bg-[#1F2937]/70 backdrop-blur-xl border border-white/20 dark:border-white/20 rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.18)] p-4">
-          <Text className="text-slate-500 dark:text-slate-300 text-sm font-medium mb-1">Humidity</Text>
-          <Metric className="text-slate-900 dark:text-blue-400 text-2xl font-bold">{city.humidity}%</Metric>
+          <Text className="text-slate-500 dark:text-blue-300 text-base md:text-lg font-semibold mb-1 dark:drop-shadow-[0_0_12px_rgba(59,130,246,0.35)]">Humidity</Text>
+          <Metric className="text-slate-900 dark:text-white text-xl font-bold">{city.humidity}%</Metric>
         </Card>
 
         <Card className="bg-white/15 dark:bg-[#1F2937]/70 backdrop-blur-xl border border-white/20 dark:border-white/20 rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.18)] p-4">
-          <Text className="text-slate-500 dark:text-slate-300 text-sm font-medium mb-1">Flights Delayed</Text>
-          <Metric className="text-slate-900 dark:text-red-400 text-2xl font-bold">{flights.delayedFlights}</Metric>
+          <Text className="text-slate-500 dark:text-red-300 text-base md:text-lg font-semibold mb-1 dark:drop-shadow-[0_0_12px_rgba(248,113,113,0.35)]">DelayFlights</Text>
+          <Metric className="text-slate-900 dark:text-white text-xl font-bold">{flights.delayedFlights}</Metric>
         </Card>
 
         <Card className="bg-white/15 dark:bg-[#1F2937]/70 backdrop-blur-xl border border-white/20 dark:border-white/20 rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.18)] p-4">
-          <Text className="text-slate-500 dark:text-slate-300 text-sm font-medium mb-1">Avg Delay</Text>
-          <Metric className="text-slate-900 dark:text-yellow-400 text-2xl font-bold">{flights.avgDelay} min</Metric>
+          <Text className="text-slate-500 dark:text-yellow-300 text-base md:text-lg font-semibold mb-1 dark:drop-shadow-[0_0_12px_rgba(245,158,11,0.35)]">Avg Delay</Text>
+          <Metric className="text-slate-900 dark:text-white text-xl font-bold">{flights.avgDelay} min</Metric>
         </Card>
       </div>
 
       <Card className="bg-white dark:bg-[#1F2937]/80 backdrop-blur-md border-gray-200 dark:border-white/10 rounded-xl shadow-lg dark:shadow-xl p-4">
-        <Text className="text-gray-600 dark:text-white/70 text-sm font-medium mb-1">Weather Severity</Text>
-        <Metric className="text-gray-900 dark:text-cyan-400 text-2xl font-bold">{getSeverity(city)}</Metric>
+        <Text className="text-gray-600 dark:text-cyan-300 text-sm font-medium mb-1">Weather Severity</Text>
+        <Metric className="text-gray-900 dark:text-white text-xl font-bold">{getSeverity(city)}</Metric>
       </Card>
     </div>
   );
@@ -394,23 +394,23 @@ function App() {
       {/* 📊 KPI Section */}
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 mb-8">
         <Card className="bg-white/10 dark:bg-[#1F2937]/70 backdrop-blur-xl border border-white/20 dark:border-white/20 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.18)] p-6">
-          <Text className="text-slate-500 dark:text-slate-300 text-sm font-medium mb-2">Total Flights</Text>
-          <Metric className="text-slate-900 dark:text-blue-400 dark:drop-shadow-[0_0_16px_rgba(59,130,246,0.7)] text-3xl font-bold">{totalFlights}</Metric>
+          <Text className="text-slate-500 dark:text-blue-300 text-base md:text-lg font-semibold mb-2 dark:drop-shadow-[0_0_16px_rgba(59,130,246,0.5)]">Total Flights</Text>
+          <Metric className="text-slate-900 dark:text-white text-xl font-bold">{totalFlights}</Metric>
         </Card>
 
         <Card className="bg-white dark:bg-[#1F2937]/95 border border-gray-200 dark:border-gray-700 rounded-xl shadow-md dark:shadow-[0_10px_30px_rgba(0,0,0,0.24)] p-6">
-          <Text className="text-slate-500 dark:text-slate-300 text-sm font-medium mb-2">Total Delays</Text>
-          <Metric className="text-slate-900 dark:text-red-400 dark:drop-shadow-[0_0_18px_rgba(248,113,113,0.65)] text-3xl font-bold">{totalDelays}</Metric>
+          <Text className="text-slate-500 dark:text-red-300 text-base md:text-lg font-semibold mb-2 dark:drop-shadow-[0_0_16px_rgba(248,113,113,0.5)]">Total Delays</Text>
+          <Metric className="text-slate-900 dark:text-white text-xl font-bold">{totalDelays}</Metric>
         </Card>
 
         <Card className="bg-white dark:bg-[#1F2937]/95 border border-gray-200 dark:border-gray-700 rounded-xl shadow-md dark:shadow-[0_10px_30px_rgba(0,0,0,0.24)] p-6">
-          <Text className="text-slate-500 dark:text-slate-300 text-sm font-medium mb-2">Delay Rate</Text>
-          <Metric className="text-slate-900 dark:text-yellow-400 dark:drop-shadow-[0_0_18px_rgba(245,158,11,0.65)] text-3xl font-bold">{delayRate}%</Metric>
+          <Text className="text-slate-500 dark:text-yellow-300 text-base md:text-lg font-semibold mb-2 dark:drop-shadow-[0_0_16px_rgba(245,158,11,0.5)]">Delay Rate</Text>
+          <Metric className="text-slate-900 dark:text-white text-xl font-bold">{delayRate}%</Metric>
         </Card>
 
         <Card className="bg-white dark:bg-[#1F2937]/95 border border-gray-200 dark:border-gray-700 rounded-xl shadow-md dark:shadow-[0_10px_30px_rgba(0,0,0,0.24)] p-6">
-          <Text className="text-slate-500 dark:text-slate-300 text-sm font-medium mb-2">Worst City</Text>
-          <Metric className="text-slate-900 dark:text-cyan-400 dark:drop-shadow-[0_0_18px_rgba(34,211,238,0.65)] text-3xl font-bold">{worstCity}</Metric>
+          <Text className="text-slate-500 dark:text-cyan-300 text-base md:text-lg font-semibold mb-2 dark:drop-shadow-[0_0_16px_rgba(34,211,238,0.5)]">Worst City</Text>
+          <Metric className="text-slate-900 dark:text-white text-xl font-bold">{worstCity}</Metric>
         </Card>
       </div>
 
