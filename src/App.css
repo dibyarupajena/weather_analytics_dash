@@ -40,3 +40,24 @@
 .read-the-docs {
   color: #888;
 }
+
+.dashboard-card {
+  background: rgba(15, 23, 42, 0.89);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.24);
+  backdrop-filter: blur(18px);
+}
+
+body {
+  background: #050a17;
+}
+
+.dashboard-legend-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(15, 23, 42, 0.78);
+  padding: 0.55rem 0.85rem;
+}
