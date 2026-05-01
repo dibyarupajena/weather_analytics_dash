@@ -434,31 +434,31 @@ function App() {
         </div>
 
         <div className="grid gap-6 xl:grid-cols-4 mb-8">
-          <Card className="dashboard-card border-l-4 border-l-emerald-500 p-6 dark:border-l-emerald-500/50">
+          <Card className="dashboard-card p-6">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <Text className="text-slate-600 text-sm font-semibold uppercase tracking-[0.24em] dark:text-slate-400">Total Flights</Text>
-                <Metric className="mt-3 text-3xl text-emerald-600 dark:text-emerald-300">{totalFlights}</Metric>
+                <Text className="text-slate-500 text-sm font-semibold uppercase tracking-[0.24em] dark:text-slate-400">Total Flights</Text>
+                <Metric className="mt-3 text-3xl text-emerald-600 dark:text-white">{totalFlights}</Metric>
               </div>
               <span className="rounded-full bg-emerald-100 px-3 py-1 text-sm text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300">+8.6% vs yesterday</span>
             </div>
           </Card>
 
-          <Card className="dashboard-card border-l-4 border-l-red-500 p-6 dark:border-l-red-500/50">
+          <Card className="dashboard-card p-6">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <Text className="text-slate-600 text-sm font-semibold uppercase tracking-[0.24em] dark:text-slate-400">Delayed Flights</Text>
-                <Metric className="mt-3 text-3xl text-red-600 dark:text-red-300">{totalDelays}</Metric>
+                <Text className="text-slate-500 text-sm font-semibold uppercase tracking-[0.24em] dark:text-slate-400">Delayed Flights</Text>
+                <Metric className="mt-3 text-3xl text-red-600 dark:text-white">{totalDelays}</Metric>
               </div>
               <span className="rounded-full bg-red-100 px-3 py-1 text-sm text-red-700 dark:bg-red-500/10 dark:text-red-300">-15.3% vs yesterday</span>
             </div>
           </Card>
 
-          <Card className="dashboard-card border-l-4 border-l-amber-500 p-6 dark:border-l-amber-500/50">
+          <Card className="dashboard-card p-6">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <Text className="text-slate-600 text-sm font-semibold uppercase tracking-[0.24em] dark:text-slate-400">Avg Delay</Text>
-                <Metric className="mt-3 text-3xl text-amber-600 dark:text-amber-300">{delayRate}%</Metric>
+                <Text className="text-slate-500 text-sm font-semibold uppercase tracking-[0.24em] dark:text-slate-400">Avg Delay</Text>
+                <Metric className="mt-3 text-3xl text-amber-600 dark:text-white">{delayRate}%</Metric>
               </div>
               <span className="rounded-full bg-amber-100 px-3 py-1 text-sm text-amber-700 dark:bg-amber-500/10 dark:text-amber-300">+6 min vs yesterday</span>
             </div>
