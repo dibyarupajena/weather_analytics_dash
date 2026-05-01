@@ -72,13 +72,12 @@ const MapComponent = ({ cities, mapConfig, selectedFrom, selectedTo }: MapCompon
     // 🎨 Color Coding Function
     const getMarkerColor = (severity: number, isHighlighted: boolean) => {
       if (isHighlighted) {
-        return '#a84a4a'; // Muted dark red for highlighted route locations
+        return '#dc2626'; // Highlighted route - bright red
       }
-      // Different shades of blue based on severity
-      if (severity < 50) return '#93c5fd';     // Light blue - Good weather
-      if (severity < 75) return '#60a5fa';     // Medium-light blue - Moderate weather
-      if (severity < 100) return '#2563eb';    // Medium-dark blue - Bad weather
-      return '#1e40af';                        // Dark blue - Very bad weather
+      // Green, Yellow, Red based on delay severity
+      if (severity < 50) return '#22c55e';     // Green - Low delay
+      if (severity < 75) return '#eab308';     // Yellow - Medium delay
+      return '#dc2626';                        // Red - High delay
     };
 
     // 🗺️ Step 1: Create the map focused on India
@@ -100,8 +99,6 @@ const MapComponent = ({ cities, mapConfig, selectedFrom, selectedTo }: MapCompon
       attributionControl: true,
       worldCopyJump: false
     }).setView(mapConfig.center, mapConfig.zoom);
-
-    map.fitBounds(indiaBounds, { padding: [50, 50] });
 
     // 🖼️ Step 2: Add the background satellite imagery
     // This is like putting a background photo on your canvas
@@ -132,15 +129,13 @@ const MapComponent = ({ cities, mapConfig, selectedFrom, selectedTo }: MapCompon
       // Create custom marker icon using the place name in a muted, semi-transparent bubble
       let bubbleColor: string;
       if (isHighlighted) {
-        bubbleColor = 'rgba(168, 74, 74, 0.75)'; // Muted dark red for highlighted routes
+        bubbleColor = 'rgba(220, 38, 38, 0.85)'; // Bright red for highlighted routes
       } else if (severity < 50) {
-        bubbleColor = 'rgba(147, 197, 253, 0.75)'; // Light blue - Good
+        bubbleColor = 'rgba(34, 197, 94, 0.85)'; // Green - Low delay
       } else if (severity < 75) {
-        bubbleColor = 'rgba(96, 165, 250, 0.75)'; // Medium-light blue - Moderate
-      } else if (severity < 100) {
-        bubbleColor = 'rgba(37, 99, 235, 0.75)'; // Medium-dark blue - Bad
+        bubbleColor = 'rgba(234, 179, 8, 0.85)'; // Yellow - Medium delay
       } else {
-        bubbleColor = 'rgba(30, 64, 175, 0.75)'; // Dark blue - Very bad
+        bubbleColor = 'rgba(220, 38, 38, 0.85)'; // Red - High delay
       }
 
       const customIcon = L.divIcon({
