@@ -35,17 +35,17 @@ const CityCard = ({ city, flights }: { city: any, flights: any }) => {
   const onTimeRate = city.totalFlights ? Math.max(0, 100 - Math.round((flights.delayedFlights / city.totalFlights) * 100)) : 0;
   const delayStatus = flights.avgDelay > 30 ? "High Delays" : flights.avgDelay > 18 ? "Moderate Delays" : "Low Delays";
   const statusClasses = flights.avgDelay > 30
-    ? "bg-red-500/10 text-red-300"
+    ? "bg-red-100 text-red-700 dark:bg-red-500/10 dark:text-red-300"
     : flights.avgDelay > 18
-    ? "bg-amber-500/10 text-amber-300"
-    : "bg-emerald-500/10 text-emerald-300";
+    ? "bg-amber-100 text-amber-700 dark:bg-amber-500/10 dark:text-amber-300"
+    : "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300";
 
   return (
-    <Card className="dashboard-card rounded-[1.75rem] border border-white/10 p-6">
+    <Card className="dashboard-card rounded-[1.75rem] p-6">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-semibold text-slate-100">{city.name}</h2>
-          <p className="mt-1 text-sm text-slate-400">Weather and flight impact snapshot</p>
+          <h2 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">{city.name}</h2>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Weather and flight impact snapshot</p>
         </div>
         <span className={`inline-flex rounded-full px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.24em] ${statusClasses}`}>
           {delayStatus}
@@ -53,8 +53,8 @@ const CityCard = ({ city, flights }: { city: any, flights: any }) => {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 mt-6">
-        <Card className="bg-slate-950/80 border border-white/10 p-5">
-          <Text className="text-slate-400 text-sm font-semibold mb-3">Air Quality</Text>
+        <Card className="bg-white/90 border border-slate-200/70 p-5 text-slate-900 shadow-sm dark:bg-slate-950/80 dark:border-white/10 dark:text-slate-100">
+          <Text className="text-slate-500 text-sm font-semibold mb-3 dark:text-slate-400">Air Quality</Text>
           <DonutChart
             className="mt-2"
             data={[
@@ -69,34 +69,34 @@ const CityCard = ({ city, flights }: { city: any, flights: any }) => {
         </Card>
 
         <div className="grid gap-4">
-          <Card className="bg-slate-950/80 border border-white/10 p-5">
-            <Text className="text-slate-400 text-sm font-semibold mb-2">Temperature</Text>
-            <Metric className="text-slate-100 text-3xl">{city.temperature}°C</Metric>
+          <Card className="bg-white/90 border border-slate-200/70 p-5 text-slate-900 shadow-sm dark:bg-slate-950/80 dark:border-white/10 dark:text-slate-100">
+            <Text className="text-slate-500 text-sm font-semibold mb-2 dark:text-slate-400">Temperature</Text>
+            <Metric className="text-slate-900 text-3xl dark:text-slate-100">{city.temperature}°C</Metric>
           </Card>
 
-          <Card className="bg-slate-950/80 border border-white/10 p-5">
-            <Text className="text-slate-400 text-sm font-semibold mb-2">Humidity</Text>
-            <Metric className="text-slate-100 text-3xl">{city.humidity}%</Metric>
+          <Card className="bg-white/90 border border-slate-200/70 p-5 text-slate-900 shadow-sm dark:bg-slate-950/80 dark:border-white/10 dark:text-slate-100">
+            <Text className="text-slate-500 text-sm font-semibold mb-2 dark:text-slate-400">Humidity</Text>
+            <Metric className="text-slate-900 text-3xl dark:text-slate-100">{city.humidity}%</Metric>
           </Card>
         </div>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4 mt-6">
-        <Card className="bg-slate-950/80 border border-white/10 p-4">
-          <Text className="text-slate-400 text-xs uppercase tracking-[0.24em] mb-2">Total Flights</Text>
-          <Metric className="text-slate-100">{city.totalFlights}</Metric>
+        <Card className="bg-white/90 border border-slate-200/70 p-4 text-slate-900 shadow-sm dark:bg-slate-950/80 dark:border-white/10 dark:text-slate-100">
+          <Text className="text-slate-500 text-xs uppercase tracking-[0.24em] mb-2 dark:text-slate-400">Total Flights</Text>
+          <Metric className="text-slate-900 dark:text-slate-100">{city.totalFlights}</Metric>
         </Card>
-        <Card className="bg-slate-950/80 border border-white/10 p-4">
-          <Text className="text-slate-400 text-xs uppercase tracking-[0.24em] mb-2">Delayed Flights</Text>
-          <Metric className="text-slate-100">{flights.delayedFlights}</Metric>
+        <Card className="bg-white/90 border border-slate-200/70 p-4 text-slate-900 shadow-sm dark:bg-slate-950/80 dark:border-white/10 dark:text-slate-100">
+          <Text className="text-slate-500 text-xs uppercase tracking-[0.24em] mb-2 dark:text-slate-400">Delayed Flights</Text>
+          <Metric className="text-slate-900 dark:text-slate-100">{flights.delayedFlights}</Metric>
         </Card>
-        <Card className="bg-slate-950/80 border border-white/10 p-4">
-          <Text className="text-slate-400 text-xs uppercase tracking-[0.24em] mb-2">Avg Delay</Text>
-          <Metric className="text-slate-100">{flights.avgDelay} min</Metric>
+        <Card className="bg-white/90 border border-slate-200/70 p-4 text-slate-900 shadow-sm dark:bg-slate-950/80 dark:border-white/10 dark:text-slate-100">
+          <Text className="text-slate-500 text-xs uppercase tracking-[0.24em] mb-2 dark:text-slate-400">Avg Delay</Text>
+          <Metric className="text-slate-900 dark:text-slate-100">{flights.avgDelay} min</Metric>
         </Card>
-        <Card className="bg-slate-950/80 border border-white/10 p-4">
-          <Text className="text-slate-400 text-xs uppercase tracking-[0.24em] mb-2">On-time %</Text>
-          <Metric className="text-slate-100">{onTimeRate}%</Metric>
+        <Card className="bg-white/90 border border-slate-200/70 p-4 text-slate-900 shadow-sm dark:bg-slate-950/80 dark:border-white/10 dark:text-slate-100">
+          <Text className="text-slate-500 text-xs uppercase tracking-[0.24em] mb-2 dark:text-slate-400">On-time %</Text>
+          <Metric className="text-slate-900 dark:text-slate-100">{onTimeRate}%</Metric>
         </Card>
       </div>
     </Card>
@@ -377,21 +377,21 @@ function App() {
   });
 
   return (
-    <div className="min-h-screen bg-[#050a17] text-slate-100">
+    <div className={`min-h-screen transition-all duration-500 ${isDarkMode ? 'bg-[#050a17] text-slate-100' : 'bg-slate-50 text-slate-900'}`}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
-        <div className="mb-8 rounded-[2rem] border border-white/10 bg-slate-950/80 p-6 shadow-[0_30px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl">
+        <div className="mb-8 rounded-[2rem] border bg-white/90 p-6 shadow-[0_24px_54px_rgba(15,23,42,0.08)] backdrop-blur-xl text-slate-900 dark:border-white/10 dark:bg-slate-950/80 dark:shadow-[0_30px_80px_rgba(0,0,0,0.35)] dark:text-slate-100">
           <div className="flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between">
             <div className="space-y-3">
-              <p className="text-sm uppercase tracking-[0.3em] text-cyan-300/75">Flight Delay & Weather Dashboard</p>
-              <h1 className="text-3xl font-semibold text-white">Flight Delay & Weather Impact</h1>
-              <p className="max-w-2xl text-slate-400">Indian city weather and flight delay analytics for major hubs, updated live every 10 minutes.</p>
+              <p className="text-sm uppercase tracking-[0.3em] text-cyan-700/80 dark:text-cyan-300/75">Flight Delay & Weather Dashboard</p>
+              <h1 className="text-3xl font-semibold">Flight Delay & Weather Impact</h1>
+              <p className="max-w-2xl text-slate-600 dark:text-slate-400">Indian city weather and flight delay analytics for major hubs, updated live every 10 minutes.</p>
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-              <div className="rounded-3xl border border-white/10 bg-slate-900/80 px-4 py-3 text-sm text-slate-300">Last update: {lastUpdatedText}</div>
+              <div className="rounded-3xl border border-slate-200/60 bg-slate-100/90 px-4 py-3 text-sm text-slate-600 dark:border-white/10 dark:bg-slate-900/80 dark:text-slate-300">Last update: {lastUpdatedText}</div>
               <button
                 onClick={toggleTheme}
-                className="rounded-3xl border border-white/10 bg-slate-900/80 px-5 py-3 text-sm font-medium text-slate-100 transition hover:bg-slate-800"
+                className="rounded-3xl border border-slate-200/60 bg-slate-100/90 px-5 py-3 text-sm font-medium text-slate-900 transition hover:bg-slate-200 dark:border-white/10 dark:bg-slate-900/80 dark:text-slate-100 dark:hover:bg-slate-800"
               >
                 {isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}
               </button>
@@ -400,32 +400,32 @@ function App() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-          <div className="rounded-[1.5rem] border border-white/10 bg-slate-950/80 p-5">
-            <Text className="text-slate-400 text-sm font-semibold uppercase tracking-[0.18em] mb-3">Flight From</Text>
+          <div className="rounded-[1.5rem] border border-slate-200/60 bg-white/90 p-5 dark:border-white/10 dark:bg-slate-950/80">
+            <Text className="text-slate-600 text-sm font-semibold uppercase tracking-[0.18em] mb-3 dark:text-slate-400">Flight From</Text>
             <select
               value={selectedFrom}
               onChange={(e) => setSelectedFrom(e.target.value)}
-              className="w-full rounded-3xl border border-white/10 bg-slate-900/90 px-4 py-3 text-slate-100 shadow-sm outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20"
+              className="w-full rounded-3xl border border-slate-300/70 bg-slate-50 px-4 py-3 text-slate-900 shadow-sm outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 dark:border-white/10 dark:bg-slate-900/90 dark:text-slate-100"
             >
               {cities.map((city) => (
-                <option key={city.name} value={city.name} className="bg-slate-950 text-slate-100">
+                <option key={city.name} value={city.name} className="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
                   {city.name}
                 </option>
               ))}
             </select>
           </div>
 
-          <div className="rounded-[1.5rem] border border-white/10 bg-slate-950/80 p-5">
-            <Text className="text-slate-400 text-sm font-semibold uppercase tracking-[0.18em] mb-3">Flight To</Text>
+          <div className="rounded-[1.5rem] border border-slate-200/60 bg-white/90 p-5 dark:border-white/10 dark:bg-slate-950/80">
+            <Text className="text-slate-600 text-sm font-semibold uppercase tracking-[0.18em] mb-3 dark:text-slate-400">Flight To</Text>
             <select
               value={selectedTo}
               onChange={(e) => setSelectedTo(e.target.value)}
-              className="w-full rounded-3xl border border-white/10 bg-slate-900/90 px-4 py-3 text-slate-100 shadow-sm outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20"
+              className="w-full rounded-3xl border border-slate-300/70 bg-slate-50 px-4 py-3 text-slate-900 shadow-sm outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 dark:border-white/10 dark:bg-slate-900/90 dark:text-slate-100"
             >
               {cities
                 .filter((city) => city.name !== selectedFrom)
                 .map((city) => (
-                  <option key={city.name} value={city.name} className="bg-slate-950 text-slate-100">
+                  <option key={city.name} value={city.name} className="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
                     {city.name}
                   </option>
                 ))}
@@ -434,62 +434,62 @@ function App() {
         </div>
 
         <div className="grid gap-6 xl:grid-cols-4 mb-8">
-          <Card className="dashboard-card p-6">
+          <Card className="dashboard-card border-l-4 border-l-emerald-500 p-6 dark:border-l-emerald-500/50">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <Text className="text-slate-400 text-sm font-semibold uppercase tracking-[0.24em]">Total Flights</Text>
-                <Metric className="mt-3 text-3xl text-white">{totalFlights}</Metric>
+                <Text className="text-slate-600 text-sm font-semibold uppercase tracking-[0.24em] dark:text-slate-400">Total Flights</Text>
+                <Metric className="mt-3 text-3xl text-emerald-600 dark:text-emerald-300">{totalFlights}</Metric>
               </div>
-              <span className="rounded-full bg-emerald-500/10 px-3 py-1 text-sm text-emerald-300">+8.6% vs yesterday</span>
+              <span className="rounded-full bg-emerald-100 px-3 py-1 text-sm text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300">+8.6% vs yesterday</span>
+            </div>
+          </Card>
+
+          <Card className="dashboard-card border-l-4 border-l-red-500 p-6 dark:border-l-red-500/50">
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <Text className="text-slate-600 text-sm font-semibold uppercase tracking-[0.24em] dark:text-slate-400">Delayed Flights</Text>
+                <Metric className="mt-3 text-3xl text-red-600 dark:text-red-300">{totalDelays}</Metric>
+              </div>
+              <span className="rounded-full bg-red-100 px-3 py-1 text-sm text-red-700 dark:bg-red-500/10 dark:text-red-300">-15.3% vs yesterday</span>
+            </div>
+          </Card>
+
+          <Card className="dashboard-card border-l-4 border-l-amber-500 p-6 dark:border-l-amber-500/50">
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <Text className="text-slate-600 text-sm font-semibold uppercase tracking-[0.24em] dark:text-slate-400">Avg Delay</Text>
+                <Metric className="mt-3 text-3xl text-amber-600 dark:text-amber-300">{delayRate}%</Metric>
+              </div>
+              <span className="rounded-full bg-amber-100 px-3 py-1 text-sm text-amber-700 dark:bg-amber-500/10 dark:text-amber-300">+6 min vs yesterday</span>
             </div>
           </Card>
 
           <Card className="dashboard-card p-6">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <Text className="text-slate-400 text-sm font-semibold uppercase tracking-[0.24em]">Delayed Flights</Text>
-                <Metric className="mt-3 text-3xl text-white">{totalDelays}</Metric>
+                <Text className="text-slate-500 text-sm font-semibold uppercase tracking-[0.24em] dark:text-slate-400">Worst City</Text>
+                <Metric className="mt-3 text-3xl text-slate-900 dark:text-slate-100">{worstCity}</Metric>
               </div>
-              <span className="rounded-full bg-red-500/10 px-3 py-1 text-sm text-red-300">-15.3% vs yesterday</span>
-            </div>
-          </Card>
-
-          <Card className="dashboard-card p-6">
-            <div className="flex items-center justify-between gap-4">
-              <div>
-                <Text className="text-slate-400 text-sm font-semibold uppercase tracking-[0.24em]">Avg Delay</Text>
-                <Metric className="mt-3 text-3xl text-white">{delayRate}%</Metric>
-              </div>
-              <span className="rounded-full bg-amber-500/10 px-3 py-1 text-sm text-amber-300">+6 min vs yesterday</span>
-            </div>
-          </Card>
-
-          <Card className="dashboard-card p-6">
-            <div className="flex items-center justify-between gap-4">
-              <div>
-                <Text className="text-slate-400 text-sm font-semibold uppercase tracking-[0.24em]">Worst City</Text>
-                <Metric className="mt-3 text-3xl text-white">{worstCity}</Metric>
-              </div>
-              <span className="rounded-full bg-slate-700/80 px-3 py-1 text-sm text-slate-300">Insight</span>
+              <span className="rounded-full bg-slate-100/90 px-3 py-1 text-sm text-slate-800 dark:bg-slate-700/80 dark:text-slate-300">Insight</span>
             </div>
           </Card>
         </div>
 
         <Card className="dashboard-card overflow-hidden mb-8">
-          <div className="flex flex-col gap-4 border-b border-white/10 bg-slate-950/80 p-6">
+          <div className="flex flex-col gap-4 border-b border-slate-200/60 bg-white/90 p-6 text-slate-900 dark:border-white/10 dark:bg-slate-950/80 dark:text-slate-100">
             <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
               <div>
-                <Title className="text-2xl font-semibold text-white">Live Weather Map</Title>
-                <p className="mt-2 text-slate-400">Indian cities and flight corridors with weather severity overlay.</p>
+                <Title className="text-2xl font-semibold">Live Weather Map</Title>
+                <p className="mt-2 text-slate-600 dark:text-slate-400">Indian cities and flight corridors with weather severity overlay.</p>
               </div>
-              <div className="flex flex-wrap gap-3 text-xs text-slate-300">
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-slate-900/80 px-3 py-2">
+              <div className="flex flex-wrap gap-3 text-xs text-slate-700 dark:text-slate-300">
+                <span className="inline-flex items-center gap-2 rounded-full border border-slate-200/60 bg-slate-100/90 px-3 py-2 dark:border-white/10 dark:bg-slate-900/80">
                   <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" /> Low Delay
                 </span>
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-slate-900/80 px-3 py-2">
+                <span className="inline-flex items-center gap-2 rounded-full border border-slate-200/60 bg-slate-100/90 px-3 py-2 dark:border-white/10 dark:bg-slate-900/80">
                   <span className="h-2.5 w-2.5 rounded-full bg-amber-400" /> Medium Delay
                 </span>
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-slate-900/80 px-3 py-2">
+                <span className="inline-flex items-center gap-2 rounded-full border border-slate-200/60 bg-slate-100/90 px-3 py-2 dark:border-white/10 dark:bg-slate-900/80">
                   <span className="h-2.5 w-2.5 rounded-full bg-red-400" /> High Delay
                 </span>
               </div>
@@ -507,9 +507,9 @@ function App() {
 
         <div className="grid gap-6 xl:grid-cols-2 mb-8">
           <Card className="dashboard-card overflow-hidden">
-            <div className="border-b border-white/10 bg-slate-950/80 p-6">
-              <Title className="text-xl font-semibold text-white">Weather Factors vs Avg Delay</Title>
-              <Text className="mt-2 text-slate-400">Higher humidity and temperature often correspond with longer delay windows.</Text>
+            <div className="border-b border-slate-200/60 bg-white/90 p-6 text-slate-900 dark:border-white/10 dark:bg-slate-950/80 dark:text-slate-100">
+              <Title className="text-xl font-semibold">Weather Factors vs Avg Delay</Title>
+              <Text className="mt-2 text-slate-600 dark:text-slate-400">Higher humidity and temperature often correspond with longer delay windows.</Text>
             </div>
             <div className="p-6">
               <LineChart
@@ -526,9 +526,9 @@ function App() {
           </Card>
 
           <Card className="dashboard-card overflow-hidden">
-            <div className="border-b border-white/10 bg-slate-950/80 p-6">
-              <Title className="text-xl font-semibold text-white">Weekly Temperature Comparison</Title>
-              <Text className="mt-2 text-slate-400">Temperature trends for the chosen pair of Indian cities.</Text>
+            <div className="border-b border-slate-200/60 bg-white/90 p-6 text-slate-900 dark:border-white/10 dark:bg-slate-950/80 dark:text-slate-100">
+              <Title className="text-xl font-semibold">Weekly Temperature Comparison</Title>
+              <Text className="mt-2 text-slate-600 dark:text-slate-400">Temperature trends for the chosen pair of Indian cities.</Text>
             </div>
             <div className="p-6">
               <LineChart
@@ -547,19 +547,19 @@ function App() {
 
         <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
           <Card className="dashboard-card p-6">
-            <Text className="text-slate-400 text-sm font-semibold uppercase tracking-[0.24em]">Humidity impact</Text>
-            <Title className="mt-3 text-lg text-white">High humidity (&gt;70%) shows strong correlation with delays.</Title>
-            <Text className="mt-4 text-slate-400">Rainy and humid conditions are reducing runway efficiency in many cities.</Text>
+            <Text className="text-slate-600 text-sm font-semibold uppercase tracking-[0.24em] dark:text-slate-400">Humidity impact</Text>
+            <Title className="mt-3 text-lg text-slate-900 dark:text-white">High humidity (&gt;70%) shows strong correlation with delays.</Title>
+            <Text className="mt-4 text-slate-600 dark:text-slate-400">Rainy and humid conditions are reducing runway efficiency in many cities.</Text>
           </Card>
           <Card className="dashboard-card p-6">
-            <Text className="text-slate-400 text-sm font-semibold uppercase tracking-[0.24em]">Temperature risk</Text>
-            <Title className="mt-3 text-lg text-white">Temperatures over 32°C are linked to 22% higher delays.</Title>
-            <Text className="mt-4 text-slate-400">Heat stress and reduced visibility impact aircraft turnaround times.</Text>
+            <Text className="text-slate-600 text-sm font-semibold uppercase tracking-[0.24em] dark:text-slate-400">Temperature risk</Text>
+            <Title className="mt-3 text-lg text-slate-900 dark:text-white">Temperatures over 32°C are linked to 22% higher delays.</Title>
+            <Text className="mt-4 text-slate-600 dark:text-slate-400">Heat stress and reduced visibility impact aircraft turnaround times.</Text>
           </Card>
           <Card className="dashboard-card p-6">
-            <Text className="text-slate-400 text-sm font-semibold uppercase tracking-[0.24em]">Route insight</Text>
-            <Title className="mt-3 text-lg text-white">{insight}</Title>
-            <Text className="mt-4 text-slate-400">ATC congestion and high traffic volume continue to amplify delays across selected hubs.</Text>
+            <Text className="text-slate-600 text-sm font-semibold uppercase tracking-[0.24em] dark:text-slate-400">Route insight</Text>
+            <Title className="mt-3 text-lg text-slate-900 dark:text-white">{insight}</Title>
+            <Text className="mt-4 text-slate-600 dark:text-slate-400">ATC congestion and high traffic volume continue to amplify delays across selected hubs.</Text>
           </Card>
         </div>
       </div>

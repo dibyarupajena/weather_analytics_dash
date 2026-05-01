@@ -42,14 +42,26 @@
 }
 
 .dashboard-card {
-  background: rgba(15, 23, 42, 0.89);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.24);
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  box-shadow: 0 24px 54px rgba(15, 23, 42, 0.08);
   backdrop-filter: blur(18px);
 }
 
+html.dark .dashboard-card {
+  background: rgba(15, 23, 42, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.24);
+}
+
 body {
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+html.dark body {
   background: #050a17;
+  color: #f8fafc;
 }
 
 .dashboard-legend-chip {
@@ -57,7 +69,12 @@ body {
   align-items: center;
   gap: 0.5rem;
   border-radius: 9999px;
-  border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(15, 23, 42, 0.78);
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  background: rgba(255, 255, 255, 0.85);
   padding: 0.55rem 0.85rem;
+}
+
+html.dark .dashboard-legend-chip {
+  border-color: rgba(255,255,255,0.08);
+  background: rgba(15, 23, 42, 0.78);
 }
