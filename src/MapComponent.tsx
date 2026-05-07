@@ -72,12 +72,12 @@ const MapComponent = ({ cities, mapConfig, selectedFrom, selectedTo }: MapCompon
     // 🎨 Color Coding Function
     const getMarkerColor = (severity: number, isHighlighted: boolean) => {
       if (isHighlighted) {
-        return '#dc2626'; // Highlighted route - bright red
+        return '#f87171'; // Lighter red for highlighted route
       }
-      // Green, Yellow, Red based on delay severity
-      if (severity < 50) return '#22c55e';     // Green - Low delay
-      if (severity < 75) return '#eab308';     // Yellow - Medium delay
-      return '#dc2626';                        // Red - High delay
+      // Lighter, muted green, yellow, red based on delay severity
+      if (severity < 50) return '#86efac';     // Light muted green - Low delay
+      if (severity < 75) return '#fef08a';     // Light muted yellow - Medium delay
+      return '#fca5a5';                        // Light muted red - High delay
     };
 
     // 🗺️ Step 1: Create the map focused on India
@@ -129,13 +129,13 @@ const MapComponent = ({ cities, mapConfig, selectedFrom, selectedTo }: MapCompon
       // Create custom marker icon using the place name in a muted, semi-transparent bubble
       let bubbleColor: string;
       if (isHighlighted) {
-        bubbleColor = 'rgba(220, 38, 38, 0.85)'; // Bright red for highlighted routes
+        bubbleColor = 'rgba(248, 113, 113, 0.65)'; // Lighter red for highlighted routes
       } else if (severity < 50) {
-        bubbleColor = 'rgba(34, 197, 94, 0.85)'; // Green - Low delay
+        bubbleColor = 'rgba(134, 239, 172, 0.65)'; // Light muted green - Low delay
       } else if (severity < 75) {
-        bubbleColor = 'rgba(234, 179, 8, 0.85)'; // Yellow - Medium delay
+        bubbleColor = 'rgba(254, 240, 138, 0.65)'; // Light muted yellow - Medium delay
       } else {
-        bubbleColor = 'rgba(220, 38, 38, 0.85)'; // Red - High delay
+        bubbleColor = 'rgba(252, 165, 165, 0.65)'; // Light muted red - High delay
       }
 
       const customIcon = L.divIcon({
